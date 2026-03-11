@@ -156,4 +156,95 @@ export const bookingService = {
       throw error;
     }
   },
+
+  // Get bookings by customer email
+  getBookingsByEmail: async (email: string): Promise<BookingResponse[]> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/customer?email=${encodeURIComponent(email)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`Error fetching bookings for email ${email}:`, error);
+      throw error;
+    }
+  },
+
+  // Get bookings by status
+  getBookingsByStatus: async (status: string): Promise<BookingResponse[]> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/status/${status}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`Error fetching bookings with status ${status}:`, error);
+      throw error;
+    }
+  },
+
+  // Update booking status only
+  updateBookingStatus: async (id: string, status: string): Promise<BookingResponse> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/${id}/status?status=${status}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`Error updating status for booking ${id}:`, error);
+      throw error;
+    }
+  },
+
+  // Check vehicle availability
+  checkVehicleAvailability: async (
+    vehicleId: string,
+    pickupDate: string,
+    returnDate: string
+  ): Promise<boolean> => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/availability?vehicleId=${encodeURIComponent(vehicleId)}&pickupDate=${pickupDate}&returnDate=${returnDate}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`Error checking availability for vehicle ${vehicleId}:`, error);
+      throw error;
+    }
+  },
 };

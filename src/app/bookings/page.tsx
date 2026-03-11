@@ -1,9 +1,22 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import BookingList from '@/components/BookingList';
+import BookingFilters from '@/components/BookingFilters';
+import { BookingResponse } from '@/types/booking';
 
 export default function BookingsPage() {
+  const [filteredBookings, setFilteredBookings] = useState<BookingResponse[] | null>(null);
+
+  const handleFilter = (bookings: BookingResponse[]) => {
+    setFilteredBookings(bookings);
+  };
+
+  const handleReset = () => {
+    setFilteredBookings(null);
+  };
+
   return (
     <main className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-7xl mx-auto">
@@ -19,8 +32,10 @@ export default function BookingsPage() {
           </Link>
         </div>
 
+        <BookingFilters onFilter={handleFilter} onReset={handleReset} />
+
         <div className="bg-white rounded-lg shadow-md p-6">
-          <BookingList />
+          <BookingList filteredBookings={filteredBookings} />
         </div>
       </div>
     </main>

@@ -7,13 +7,15 @@ import { bookingService } from '@/services/bookingService';
 
 interface BookingListProps {
   refreshTrigger?: number;
+  filteredBookings?: BookingResponse[] | null;
 }
 
-export default function BookingList({ refreshTrigger }: BookingListProps) {
+export default function BookingList({ refreshTrigger, filteredBookings }: BookingListProps) {
   const [bookings, setBookings] = useState<BookingResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedBooking, setSelectedBooking] = useState<BookingResponse | null>(null);
+  const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
 
   const fetchBookings = async () => {
     try {
@@ -30,8 +32,34 @@ export default function BookingList({ refreshTrigger }: BookingListProps) {
   };
 
   useEffect(() => {
-    fetchBookings();
-  }, [refreshTrigger]);
+    if (filteredBookings === null || filteredBookings === undefined) {
+      fetchBookings();
+    } else {
+      setBookings(filteredBookings);
+      setLoading(false);
+    }
+  }, [refreshTrigger, filteredBookings]);
+
+  const handleStatusUpdate = async (bookingId: string, newStatus: string) => {
+    if (!confirm(`Are you sure you want to update the status to ${newStatus}?`)) {
+      return;
+    }
+
+    try {
+      setUpdatingStatus(bookingId);
+      const updatedBooking = await bookingService.updateBookingStatus(bookingId, newStatus);
+      
+      // Update the local state
+      setBookings(bookings.map((b) => (b.id === bookingId ? updatedBooking : b)));
+      
+      alert('Status updated successfully!');
+    } catch (err) {
+      alert('Failed to update status');
+      console.error(err);
+    } finally {
+      setUpdatingStatus(null);
+    }
+  };
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this booking?')) {
@@ -147,9 +175,21 @@ export default function BookingList({ refreshTrigger }: BookingListProps) {
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-900 font-medium">${booking.pricePerDay.toFixed(2)}</td>
                 <td className="px-4 py-3 text-sm">
-                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(booking.status)}`}>
-                    {booking.status}
-                  </span>
+                  {updatingStatus === booking.id ? (
+                    <span className="text-xs text-gray-500">Updating...</span>
+                  ) : (
+                    <select
+                      value={booking.status}
+                      onChange={(e) => handleStatusUpdate(booking.id, e.target.value)}
+                      className={`px-2 py-1 rounded-full text-xs font-semibold border-0 cursor-pointer ${getStatusColor(booking.status)}`}
+                      disabled={updatingStatus === booking.id}
+                    >
+                      <option value="PENDING">PENDING</option>
+                      <option value="CONFIRMED">CONFIRMED</option>
+                      <option value="CANCELLED">CANCELLED</option>
+                      <option value="COMPLETED">COMPLETED</option>
+                    </select>
+                  )}
                 </td>
                 <td className="px-4 py-3 text-sm space-x-2">
                   <button

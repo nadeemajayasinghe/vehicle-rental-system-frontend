@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import BookingForm from '@/components/BookingForm';
+import AvailabilityChecker from '@/components/AvailabilityChecker';
 
 export default function BookingPage() {
   const router = useRouter();
@@ -28,7 +29,13 @@ export default function BookingPage() {
             View All Bookings
           </Link>
         </div>
+
+        {/* Availability Checker */}
+        <div className="mb-8">
+          <AvailabilityChecker />
+        </div>
         
+        {/* Booking Form */}
         <BookingForm onSuccess={handleBookingSuccess} />
       </div>
     </main>
