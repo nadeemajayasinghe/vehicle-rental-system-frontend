@@ -1,14 +1,17 @@
 'use client';
 
-import { useState } from 'react';
-import { BookingRequest } from '@/types/booking';
+import { useState, useEffect } from 'react';
+import { BookingRequest, BookingResponse } from '@/types/booking';
 import { bookingService } from '@/services/bookingService';
 
 interface BookingFormProps {
   onSuccess?: () => void;
+  bookingId?: string;
+  initialData?: BookingResponse;
 }
 
-export default function BookingForm({ onSuccess }: BookingFormProps) {
+export default function BookingForm({ onSuccess, bookingId, initialData }: BookingFormProps) {
+  const isEditMode = !!bookingId;
   const [formData, setFormData] = useState<BookingRequest>({
     vehicleId: '',
     vehicleName: '',
@@ -28,6 +31,26 @@ export default function BookingForm({ onSuccess }: BookingFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        vehicleId: initialData.vehicleId,
+        vehicleName: initialData.vehicleName,
+        customerName: initialData.customerName,
+        customerEmail: initialData.customerEmail,
+        customerPhone: initialData.customerPhone,
+        licenseNumber: initialData.licenseNumber,
+        pickupDate: initialData.pickupDate,
+        returnDate: initialData.returnDate,
+        pickupLocation: initialData.pickupLocation,
+        returnLocation: initialData.returnLocation,
+        pricePerDay: initialData.pricePerDay,
+        status: initialData.status,
+        specialRequests: initialData.specialRequests || '',
+      });
+    }
+  }, [initialData]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -43,28 +66,33 @@ export default function BookingForm({ onSuccess }: BookingFormProps) {
     setSuccess(false);
 
     try {
-      await bookingService.createBooking(formData);
-      setSuccess(true);
-      setFormData({
-        vehicleId: '',
-        vehicleName: '',
-        customerName: '',
-        customerEmail: '',
-        customerPhone: '',
-        licenseNumber: '',
-        pickupDate: '',
-        returnDate: '',
-        pickupLocation: '',
-        returnLocation: '',
-        pricePerDay: 0,
-        status: 'PENDING',
-        specialRequests: '',
-      });
+      if (isEditMode && bookingId) {
+        await bookingService.updateBooking(bookingId, formData);
+        setSuccess(true);
+      } else {
+        await bookingService.createBooking(formData);
+        setSuccess(true);
+        setFormData({
+          vehicleId: '',
+          vehicleName: '',
+          customerName: '',
+          customerEmail: '',
+          customerPhone: '',
+          licenseNumber: '',
+          pickupDate: '',
+          returnDate: '',
+          pickupLocation: '',
+          returnLocation: '',
+          pricePerDay: 0,
+          status: 'PENDING',
+          specialRequests: '',
+        });
+      }
       if (onSuccess) {
         onSuccess();
       }
     } catch (err) {
-      setError('Failed to create booking. Please try again.');
+      setError(isEditMode ? 'Failed to update booking. Please try again.' : 'Failed to create booking. Please try again.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -73,7 +101,9 @@ export default function BookingForm({ onSuccess }: BookingFormProps) {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Create New Booking</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">
+        {isEditMode ? 'Edit Booking' : 'Create New Booking'}
+      </h2>
       
       {error && (
         <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -83,7 +113,7 @@ export default function BookingForm({ onSuccess }: BookingFormProps) {
       
       {success && (
         <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-          Booking created successfully!
+          {isEditMode ? 'Booking updated successfully!' : 'Booking created successfully!'}
         </div>
       )}
 
@@ -322,7 +352,7 @@ export default function BookingForm({ onSuccess }: BookingFormProps) {
           disabled={loading}
           className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-semibold"
         >
-          {loading ? 'Creating Booking...' : 'Create Booking'}
+          {loading ? (isEditMode ? 'Updating Booking...' : 'Creating Booking...') : (isEditMode ? 'Update Booking' : 'Create Booking')}
         </button>
       </form>
     </div>

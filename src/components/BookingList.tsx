@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { BookingResponse } from '@/types/booking';
 import { bookingService } from '@/services/bookingService';
 
@@ -32,7 +33,7 @@ export default function BookingList({ refreshTrigger }: BookingListProps) {
     fetchBookings();
   }, [refreshTrigger]);
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this booking?')) {
       return;
     }
@@ -157,6 +158,13 @@ export default function BookingList({ refreshTrigger }: BookingListProps) {
                   >
                     View
                   </button>
+                  <Link
+                    href={`/booking/${booking.id}`}
+                    className="text-green-600 hover:text-green-800 font-medium"
+                    onClick={() => console.log('Navigating to edit booking with ID:', booking.id)}
+                  >
+                    Edit
+                  </Link>
                   <button
                     onClick={() => handleDelete(booking.id)}
                     className="text-red-600 hover:text-red-800 font-medium"

@@ -25,8 +25,9 @@ export const bookingService = {
   },
 
   // Get booking by ID
-  getBookingById: async (id: number): Promise<BookingResponse> => {
+  getBookingById: async (id: string): Promise<BookingResponse> => {
     try {
+      console.log(`Fetching booking from: ${API_BASE_URL}/${id}`);
       const response = await fetch(`${API_BASE_URL}/${id}`, {
         method: 'GET',
         headers: {
@@ -34,11 +35,17 @@ export const bookingService = {
         },
       });
 
+      console.log(`Response status: ${response.status}`);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error(`Error response: ${errorText}`);
+        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
       }
 
-      return await response.json();
+      const data = await response.json();
+      console.log('Received booking data:', data);
+      return data;
     } catch (error) {
       console.error(`Error fetching booking ${id}:`, error);
       throw error;
@@ -68,7 +75,7 @@ export const bookingService = {
   },
 
   // Update booking
-  updateBooking: async (id: number, booking: Partial<Booking>): Promise<BookingResponse> => {
+  updateBooking: async (id: string, booking: Partial<Booking>): Promise<BookingResponse> => {
     try {
       const response = await fetch(`${API_BASE_URL}/${id}`, {
         method: 'PUT',
@@ -90,7 +97,7 @@ export const bookingService = {
   },
 
   // Delete booking
-  deleteBooking: async (id: number): Promise<void> => {
+  deleteBooking: async (id: string): Promise<void> => {
     try {
       const response = await fetch(`${API_BASE_URL}/${id}`, {
         method: 'DELETE',
@@ -109,7 +116,7 @@ export const bookingService = {
   },
 
   // Get bookings by customer ID
-  getBookingsByCustomerId: async (customerId: number): Promise<BookingResponse[]> => {
+  getBookingsByCustomerId: async (customerId: string): Promise<BookingResponse[]> => {
     try {
       const response = await fetch(`${API_BASE_URL}/customer/${customerId}`, {
         method: 'GET',
@@ -130,7 +137,7 @@ export const bookingService = {
   },
 
   // Get bookings by vehicle ID
-  getBookingsByVehicleId: async (vehicleId: number): Promise<BookingResponse[]> => {
+  getBookingsByVehicleId: async (vehicleId: string): Promise<BookingResponse[]> => {
     try {
       const response = await fetch(`${API_BASE_URL}/vehicle/${vehicleId}`, {
         method: 'GET',

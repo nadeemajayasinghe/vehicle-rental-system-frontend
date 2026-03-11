@@ -1,5 +1,5 @@
 export interface Booking {
-  id?: number;
+  id?: string;
   vehicleId: string;
   vehicleName: string;
   customerName: string;
@@ -18,7 +18,7 @@ export interface Booking {
 }
 
 export interface BookingResponse {
-  id: number;
+  id: string;
   vehicleId: string;
   vehicleName: string;
   customerName: string;
