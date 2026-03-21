@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createPayment, getBookingById } from "@/services/paymentService";
 import { PaymentMethod, BookingDetails } from "@/types/payment";
+import { useAuth } from "@/contexts/AuthContext";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface FormErrors { [key: string]: string; }
@@ -73,6 +74,7 @@ function CardPreview({ cardType, cardNumber, cardHolder, expiry, method }: {
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function PaymentForm() {
   const router = useRouter();
+  const { user } = useAuth();
   const [method, setMethod] = useState<PaymentMethod>("CREDIT_CARD");
   const [rentalId, setRentalId] = useState("");
   const [amount, setAmount] = useState("");
@@ -146,6 +148,7 @@ export default function PaymentForm() {
         amount: Number(amount),
         currency: "LKR",
         bookingId: rentalId,
+        customerId: user?.id || 0,
         ...(isCard && {
           cardNumber: cardNumber.replace(/\s/g, "").slice(-4).padStart(16, "*"),
           expiryDate: expiry,
