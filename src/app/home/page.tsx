@@ -3,9 +3,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { customerService, ServiceHistoryResponse } from '@/services/customerService';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function HomePage() {
   const { user, isLoading: authLoading } = useAuth();
@@ -88,6 +90,13 @@ export default function HomePage() {
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href="/vehicles"
+                  className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500"
+                >
+                  Browse Vehicles
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                </Link>
                 <div className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-slate-100">
                   Account status: Active
                 </div>
@@ -253,6 +262,7 @@ export default function HomePage() {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }
