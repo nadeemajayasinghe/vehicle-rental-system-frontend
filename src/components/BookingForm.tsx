@@ -120,10 +120,10 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Vehicle Information */}
         <div className="border-b pb-4 mb-4">
-          <h3 className="text-lg font-semibold text-gray-700 mb-3">Vehicle Information</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-3">Vehicle Information</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="vehicleId" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="vehicleId" className="block text-sm font-medium text-gray-800 mb-1">
                 Vehicle ID <span className="text-red-500">*</span>
               </label>
               <input
@@ -133,13 +133,13 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 value={formData.vehicleId}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
                 placeholder="e.g., VEH-001"
               />
             </div>
 
             <div>
-              <label htmlFor="vehicleName" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="vehicleName" className="block text-sm font-medium text-gray-800 mb-1">
                 Vehicle Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -149,13 +149,13 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 value={formData.vehicleName}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
                 placeholder="e.g., Toyota Camry"
               />
             </div>
 
             <div>
-              <label htmlFor="pricePerDay" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="pricePerDay" className="block text-sm font-medium text-gray-800 mb-1">
                 Price Per Day ($) <span className="text-red-500">*</span>
               </label>
               <input
@@ -167,7 +167,7 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 required
                 min="0"
                 step="0.01"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
                 placeholder="e.g., 50.00"
               />
             </div>
@@ -176,10 +176,10 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
 
         {/* Customer Information */}
         <div className="border-b pb-4 mb-4">
-          <h3 className="text-lg font-semibold text-gray-700 mb-3">Customer Information</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-3">Customer Information</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="customerName" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="customerName" className="block text-sm font-medium text-gray-800 mb-1">
                 Customer Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -189,13 +189,13 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 value={formData.customerName}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
                 placeholder="e.g., John Doe"
               />
             </div>
 
             <div>
-              <label htmlFor="customerEmail" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="customerEmail" className="block text-sm font-medium text-gray-800 mb-1">
                 Customer Email <span className="text-red-500">*</span>
               </label>
               <input
@@ -205,13 +205,13 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 value={formData.customerEmail}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
                 placeholder="e.g., john@example.com"
               />
             </div>
 
             <div>
-              <label htmlFor="customerPhone" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="customerPhone" className="block text-sm font-medium text-gray-800 mb-1">
                 Customer Phone <span className="text-red-500">*</span>
               </label>
               <input
@@ -221,13 +221,13 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 value={formData.customerPhone}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
                 placeholder="e.g., 0771234567"
               />
             </div>
 
             <div>
-              <label htmlFor="licenseNumber" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="licenseNumber" className="block text-sm font-medium text-gray-800 mb-1">
                 License Number <span className="text-red-500">*</span>
               </label>
               <input
@@ -237,7 +237,7 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 value={formData.licenseNumber}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
                 placeholder="e.g., LIC-123456"
               />
             </div>
@@ -246,10 +246,10 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
 
         {/* Booking Details */}
         <div className="border-b pb-4 mb-4">
-          <h3 className="text-lg font-semibold text-gray-700 mb-3">Booking Details</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-3">Booking Details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="pickupDate" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="pickupDate" className="block text-sm font-medium text-gray-800 mb-1">
                 Pickup Date <span className="text-red-500">*</span>
               </label>
               <input
@@ -259,12 +259,12 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 value={formData.pickupDate}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
               />
             </div>
 
             <div>
-              <label htmlFor="returnDate" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="returnDate" className="block text-sm font-medium text-gray-800 mb-1">
                 Return Date <span className="text-red-500">*</span>
               </label>
               <input
@@ -274,12 +274,12 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 value={formData.returnDate}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
               />
             </div>
 
             <div>
-              <label htmlFor="pickupLocation" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="pickupLocation" className="block text-sm font-medium text-gray-800 mb-1">
                 Pickup Location <span className="text-red-500">*</span>
               </label>
               <input
@@ -289,13 +289,13 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 value={formData.pickupLocation}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
                 placeholder="e.g., Colombo"
               />
             </div>
 
             <div>
-              <label htmlFor="returnLocation" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="returnLocation" className="block text-sm font-medium text-gray-800 mb-1">
                 Return Location <span className="text-red-500">*</span>
               </label>
               <input
@@ -305,13 +305,13 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 value={formData.returnLocation}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
                 placeholder="e.g., Kandy"
               />
             </div>
 
             <div>
-              <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="status" className="block text-sm font-medium text-gray-800 mb-1">
                 Status <span className="text-red-500">*</span>
               </label>
               <select
@@ -320,12 +320,12 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
                 value={formData.status}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
               >
-                <option value="PENDING">PENDING</option>
-                <option value="CONFIRMED">CONFIRMED</option>
-                <option value="CANCELLED">CANCELLED</option>
-                <option value="COMPLETED">COMPLETED</option>
+                <option value="PENDING" className="text-gray-800">PENDING</option>
+                <option value="CONFIRMED" className="text-gray-800">CONFIRMED</option>
+                <option value="CANCELLED" className="text-gray-800">CANCELLED</option>
+                <option value="COMPLETED" className="text-gray-800">COMPLETED</option>
               </select>
             </div>
           </div>
@@ -333,7 +333,7 @@ export default function BookingForm({ onSuccess, bookingId, initialData }: Booki
 
         {/* Special Requests */}
         <div>
-          <label htmlFor="specialRequests" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="specialRequests" className="block text-sm font-medium text-gray-800 mb-1">
             Special Requests
           </label>
           <textarea

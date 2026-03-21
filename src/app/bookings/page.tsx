@@ -21,7 +21,7 @@ export default function BookingsPage() {
     <main className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">
+          <h1 className="text-4xl font-bold text-gray-800">
             All Bookings
           </h1>
           <Link

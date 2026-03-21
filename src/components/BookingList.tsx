@@ -82,13 +82,13 @@ export default function BookingList({ refreshTrigger, filteredBookings }: Bookin
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'CONFIRMED':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-gray-800';
       case 'PENDING':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-100 text-gray-800';
       case 'CANCELLED':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-100 text-gray-800';
       case 'COMPLETED':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-100 text-gray-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -118,7 +118,7 @@ export default function BookingList({ refreshTrigger, filteredBookings }: Bookin
 
   if (bookings.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-500">
+      <div className="text-center py-12 text-gray-800">
         No bookings found. Create your first booking!
       </div>
     );
@@ -131,52 +131,52 @@ export default function BookingList({ refreshTrigger, filteredBookings }: Bookin
         <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow">
           <thead className="bg-gray-100">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">ID</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">Vehicle</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">Customer</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">Contact</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">License</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">Dates</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">Locations</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">Price/Day</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">Status</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">Actions</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800">ID</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800">Vehicle</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800">Customer</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800">Contact</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800">License</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800">Dates</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800">Locations</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800">Price/Day</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800">Status</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
             {bookings.map((booking) => (
               <tr key={booking.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 text-sm text-gray-900">{booking.id}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">
-                  <div className="font-medium">{booking.vehicleName}</div>
-                  <div className="text-xs text-gray-500">{booking.vehicleId}</div>
+                <td className="px-4 py-3 text-sm text-gray-800">{booking.id}</td>
+                <td className="px-4 py-3 text-sm text-gray-800">
+                  <div className="font-medium text-gray-800">{booking.vehicleName}</div>
+                  <div className="text-xs text-gray-800">{booking.vehicleId}</div>
                 </td>
-                <td className="px-4 py-3 text-sm text-gray-900">{booking.customerName}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">
+                <td className="px-4 py-3 text-sm text-gray-800">{booking.customerName}</td>
+                <td className="px-4 py-3 text-sm text-gray-800">
                   <div className="text-xs">{booking.customerEmail}</div>
-                  <div className="text-xs text-gray-500">{booking.customerPhone}</div>
+                  <div className="text-xs text-gray-800">{booking.customerPhone}</div>
                 </td>
-                <td className="px-4 py-3 text-sm text-gray-900">{booking.licenseNumber}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">
+                <td className="px-4 py-3 text-sm text-gray-800">{booking.licenseNumber}</td>
+                <td className="px-4 py-3 text-sm text-gray-800">
                   <div className="text-xs">
-                    <span className="font-medium">From:</span> {formatDate(booking.pickupDate)}
+                    <span className="font-medium text-gray-800">From:</span> {formatDate(booking.pickupDate)}
                   </div>
                   <div className="text-xs">
-                    <span className="font-medium">To:</span> {formatDate(booking.returnDate)}
-                  </div>
-                </td>
-                <td className="px-4 py-3 text-sm text-gray-900">
-                  <div className="text-xs">
-                    <span className="font-medium">Pickup:</span> {booking.pickupLocation}
-                  </div>
-                  <div className="text-xs">
-                    <span className="font-medium">Return:</span> {booking.returnLocation}
+                    <span className="font-medium text-gray-800">To:</span> {formatDate(booking.returnDate)}
                   </div>
                 </td>
-                <td className="px-4 py-3 text-sm text-gray-900 font-medium">${booking.pricePerDay.toFixed(2)}</td>
+                <td className="px-4 py-3 text-sm text-gray-800">
+                  <div className="text-xs">
+                    <span className="font-medium text-gray-800">Pickup:</span> {booking.pickupLocation}
+                  </div>
+                  <div className="text-xs">
+                    <span className="font-medium text-gray-800">Return:</span> {booking.returnLocation}
+                  </div>
+                </td>
+                <td className="px-4 py-3 text-sm text-gray-800 font-medium">${booking.pricePerDay.toFixed(2)}</td>
                 <td className="px-4 py-3 text-sm">
                   {updatingStatus === booking.id ? (
-                    <span className="text-xs text-gray-500">Updating...</span>
+                    <span className="text-xs text-gray-800">Updating...</span>
                   ) : (
                     <select
                       value={booking.status}
@@ -184,10 +184,10 @@ export default function BookingList({ refreshTrigger, filteredBookings }: Bookin
                       className={`px-2 py-1 rounded-full text-xs font-semibold border-0 cursor-pointer ${getStatusColor(booking.status)}`}
                       disabled={updatingStatus === booking.id}
                     >
-                      <option value="PENDING">PENDING</option>
-                      <option value="CONFIRMED">CONFIRMED</option>
-                      <option value="CANCELLED">CANCELLED</option>
-                      <option value="COMPLETED">COMPLETED</option>
+                      <option value="PENDING" className="text-gray-800">PENDING</option>
+                      <option value="CONFIRMED" className="text-gray-800">CONFIRMED</option>
+                      <option value="CANCELLED" className="text-gray-800">CANCELLED</option>
+                      <option value="COMPLETED" className="text-gray-800">COMPLETED</option>
                     </select>
                   )}
                 </td>
@@ -227,7 +227,7 @@ export default function BookingList({ refreshTrigger, filteredBookings }: Bookin
                 <h3 className="text-2xl font-bold text-gray-800">Booking Details</h3>
                 <button
                   onClick={() => setSelectedBooking(null)}
-                  className="text-gray-500 hover:text-gray-700 text-2xl"
+                  className="text-gray-800 hover:text-gray-800 text-2xl"
                 >
                   ×
                 </button>
@@ -236,11 +236,11 @@ export default function BookingList({ refreshTrigger, filteredBookings }: Bookin
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-gray-500">Booking ID</p>
-                    <p className="font-semibold">{selectedBooking.id}</p>
+                    <p className="text-sm text-gray-800">Booking ID</p>
+                    <p className="font-semibold text-gray-800">{selectedBooking.id}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Status</p>
+                    <p className="text-sm text-gray-800">Status</p>
                     <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(selectedBooking.status)}`}>
                       {selectedBooking.status}
                     </span>
@@ -248,71 +248,71 @@ export default function BookingList({ refreshTrigger, filteredBookings }: Bookin
                 </div>
 
                 <div className="border-t pt-4">
-                  <h4 className="font-semibold text-lg mb-2">Vehicle Information</h4>
+                  <h4 className="font-semibold text-lg mb-2 text-gray-800">Vehicle Information</h4>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-500">Vehicle ID</p>
-                      <p className="font-medium">{selectedBooking.vehicleId}</p>
+                      <p className="text-sm text-gray-800">Vehicle ID</p>
+                      <p className="font-medium text-gray-800">{selectedBooking.vehicleId}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Vehicle Name</p>
-                      <p className="font-medium">{selectedBooking.vehicleName}</p>
+                      <p className="text-sm text-gray-800">Vehicle Name</p>
+                      <p className="font-medium text-gray-800">{selectedBooking.vehicleName}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Price Per Day</p>
-                      <p className="font-medium">${selectedBooking.pricePerDay.toFixed(2)}</p>
+                      <p className="text-sm text-gray-800">Price Per Day</p>
+                      <p className="font-medium text-gray-800">${selectedBooking.pricePerDay.toFixed(2)}</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="border-t pt-4">
-                  <h4 className="font-semibold text-lg mb-2">Customer Information</h4>
+                  <h4 className="font-semibold text-lg mb-2 text-gray-800">Customer Information</h4>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-500">Name</p>
-                      <p className="font-medium">{selectedBooking.customerName}</p>
+                      <p className="text-sm text-gray-800">Name</p>
+                      <p className="font-medium text-gray-800">{selectedBooking.customerName}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Email</p>
-                      <p className="font-medium">{selectedBooking.customerEmail}</p>
+                      <p className="text-sm text-gray-800">Email</p>
+                      <p className="font-medium text-gray-800">{selectedBooking.customerEmail}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Phone</p>
-                      <p className="font-medium">{selectedBooking.customerPhone}</p>
+                      <p className="text-sm text-gray-800">Phone</p>
+                      <p className="font-medium text-gray-800">{selectedBooking.customerPhone}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">License Number</p>
-                      <p className="font-medium">{selectedBooking.licenseNumber}</p>
+                      <p className="text-sm text-gray-800">License Number</p>
+                      <p className="font-medium text-gray-800">{selectedBooking.licenseNumber}</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="border-t pt-4">
-                  <h4 className="font-semibold text-lg mb-2">Booking Details</h4>
+                  <h4 className="font-semibold text-lg mb-2 text-gray-800">Booking Details</h4>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-500">Pickup Date</p>
-                      <p className="font-medium">{formatDate(selectedBooking.pickupDate)}</p>
+                      <p className="text-sm text-gray-800">Pickup Date</p>
+                      <p className="font-medium text-gray-800">{formatDate(selectedBooking.pickupDate)}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Return Date</p>
-                      <p className="font-medium">{formatDate(selectedBooking.returnDate)}</p>
+                      <p className="text-sm text-gray-800">Return Date</p>
+                      <p className="font-medium text-gray-800">{formatDate(selectedBooking.returnDate)}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Pickup Location</p>
-                      <p className="font-medium">{selectedBooking.pickupLocation}</p>
+                      <p className="text-sm text-gray-800">Pickup Location</p>
+                      <p className="font-medium text-gray-800">{selectedBooking.pickupLocation}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Return Location</p>
-                      <p className="font-medium">{selectedBooking.returnLocation}</p>
+                      <p className="text-sm text-gray-800">Return Location</p>
+                      <p className="font-medium text-gray-800">{selectedBooking.returnLocation}</p>
                     </div>
                   </div>
                 </div>
 
                 {selectedBooking.specialRequests && (
                   <div className="border-t pt-4">
-                    <h4 className="font-semibold text-lg mb-2">Special Requests</h4>
-                    <p className="text-gray-700">{selectedBooking.specialRequests}</p>
+                    <h4 className="font-semibold text-lg mb-2 text-gray-800">Special Requests</h4>
+                    <p className="text-gray-800">{selectedBooking.specialRequests}</p>
                   </div>
                 )}
               </div>

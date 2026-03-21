@@ -62,29 +62,29 @@ const BookingFilters: React.FC<BookingFiltersProps> = ({ onFilter, onReset }) =>
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-      <h2 className="text-xl font-semibold mb-4">Filter Bookings</h2>
+      <h2 className="text-xl font-semibold mb-4 text-gray-800">Filter Bookings</h2>
       
       <form onSubmit={handleFilter} className="space-y-4">
         <div className="flex flex-col md:flex-row gap-4">
           {/* Filter Type Selection */}
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-800 mb-1">
               Filter By
             </label>
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value as 'email' | 'vehicleId' | 'status')}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
             >
-              <option value="email">Customer Email</option>
-              <option value="vehicleId">Vehicle ID</option>
-              <option value="status">Status</option>
+              <option value="email" className="text-gray-800">Customer Email</option>
+              <option value="vehicleId" className="text-gray-800">Vehicle ID</option>
+              <option value="status" className="text-gray-800">Status</option>
             </select>
           </div>
 
           {/* Filter Value Input */}
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-800 mb-1">
               {filterType === 'email' && 'Email Address'}
               {filterType === 'vehicleId' && 'Vehicle ID'}
               {filterType === 'status' && 'Status'}
@@ -94,13 +94,13 @@ const BookingFilters: React.FC<BookingFiltersProps> = ({ onFilter, onReset }) =>
               <select
                 value={filterValue}
                 onChange={(e) => setFilterValue(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
               >
-                <option value="">Select status...</option>
-                <option value="PENDING">PENDING</option>
-                <option value="CONFIRMED">CONFIRMED</option>
-                <option value="CANCELLED">CANCELLED</option>
-                <option value="COMPLETED">COMPLETED</option>
+                <option value="" className="text-gray-800">Select status...</option>
+                <option value="PENDING" className="text-gray-800">PENDING</option>
+                <option value="CONFIRMED" className="text-gray-800">CONFIRMED</option>
+                <option value="CANCELLED" className="text-gray-800">CANCELLED</option>
+                <option value="COMPLETED" className="text-gray-800">COMPLETED</option>
               </select>
             ) : (
               <input
@@ -112,7 +112,7 @@ const BookingFilters: React.FC<BookingFiltersProps> = ({ onFilter, onReset }) =>
                     ? 'Enter customer email...' 
                     : 'Enter vehicle ID...'
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
               />
             )}
           </div>

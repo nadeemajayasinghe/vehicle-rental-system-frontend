@@ -53,11 +53,11 @@ const AvailabilityChecker: React.FC = () => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Check Vehicle Availability</h2>
+      <h2 className="text-xl font-semibold mb-4 text-gray-800">Check Vehicle Availability</h2>
       
       <form onSubmit={handleCheck} className="space-y-4">
         <div>
-          <label htmlFor="vehicleId" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="vehicleId" className="block text-sm font-medium text-gray-800 mb-1">
             Vehicle ID <span className="text-red-500">*</span>
           </label>
           <input
@@ -72,7 +72,7 @@ const AvailabilityChecker: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="pickupDate" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="pickupDate" className="block text-sm font-medium text-gray-800 mb-1">
               Pickup Date <span className="text-red-500">*</span>
             </label>
             <input
@@ -81,12 +81,12 @@ const AvailabilityChecker: React.FC = () => {
               value={pickupDate}
               onChange={(e) => setPickupDate(e.target.value)}
               min={new Date().toISOString().split('T')[0]}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
             />
           </div>
 
           <div>
-            <label htmlFor="returnDate" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="returnDate" className="block text-sm font-medium text-gray-800 mb-1">
               Return Date <span className="text-red-500">*</span>
             </label>
             <input
@@ -95,7 +95,7 @@ const AvailabilityChecker: React.FC = () => {
               value={returnDate}
               onChange={(e) => setReturnDate(e.target.value)}
               min={pickupDate || new Date().toISOString().split('T')[0]}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-600"
             />
           </div>
         </div>
@@ -141,7 +141,7 @@ const AvailabilityChecker: React.FC = () => {
                     />
                   </svg>
                   <div>
-                    <p className="font-semibold">Vehicle is Available!</p>
+                    <p className="font-semibold text-gray-800">Vehicle is Available!</p>
                     <p className="text-sm">
                       This vehicle is available for the selected dates. You can proceed with the booking.
                     </p>
@@ -161,7 +161,7 @@ const AvailabilityChecker: React.FC = () => {
                     />
                   </svg>
                   <div>
-                    <p className="font-semibold">Vehicle is Not Available</p>
+                    <p className="font-semibold text-gray-800">Vehicle is Not Available</p>
                     <p className="text-sm">
                       This vehicle is already booked for the selected dates. Please choose different dates or another vehicle.
                     </p>
