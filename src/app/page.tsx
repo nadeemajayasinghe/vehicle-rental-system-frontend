@@ -10,7 +10,7 @@ export default function Home() {
             <li>moda hirun</li>
             <li>moda vidura</li>
             <li>moda dilshan</li>
-            <li>hoda nadeema</li>
+            <li>hoda nadeema (nadeema witharai methana hoda lamayekta inne 😊)</li>
           </ul>
         </div>
       </main>
