@@ -24,6 +24,17 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    
+    // Check for hardcoded admin credentials
+    if (formData.email === 'admin@carRent.com' && formData.password === 'admin@1234') {
+      // Create a mock admin token and redirect to admin dashboard
+      const adminToken = 'admin-mock-token';
+      localStorage.setItem('adminToken', adminToken);
+      router.push('/admin');
+      setIsLoading(false);
+      return;
+    }
+    
     try {
       const response = await customerService.login(formData);
       await login(response.token);
