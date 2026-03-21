@@ -1,10 +1,8 @@
 import axios from 'axios';
 
 
-const API_BASE_URL = 'http://api-gateway-alb-1602792189.eu-north-1.elb.amazonaws.com';
-
 const api = axios.create({
-  baseURL: `${API_BASE_URL}/customers`,
+  baseURL: '/api/customers',
   headers: {
     'Content-Type': 'application/json',
   },
