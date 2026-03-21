@@ -185,11 +185,16 @@ export default function PaymentForm() {
     if (!validate()) return;
     setLoading(true);
     try {
-      const payload: PaymentRequest = {
-        paymentMethod: method, amount: Number(amount), currency: "LKR", rentalId,
+      const payload = {
+        paymentMethod: method,
+        amount: Number(amount),
+        currency: "LKR",
+        bookingId: rentalId,
         ...(isCard && {
           cardNumber: cardNumber.replace(/\s/g, "").slice(-4).padStart(16, "*"),
-          expiry, cvv: "***", cardHolderName: cardHolder,
+          expiryDate: expiry,
+          cvv: "***",
+          cardHolderName: cardHolder,
           ...(email && { email }),
         }),
       };
