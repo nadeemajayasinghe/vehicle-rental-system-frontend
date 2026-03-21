@@ -258,285 +258,285 @@ export default function PaymentForm() {
         .pf-submit:disabled { opacity: 0.45; cursor: not-allowed; }
         .pf-submit { transition: transform 0.15s, filter 0.15s, box-shadow 0.15s; }
       `}</style>
-<div style={{
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "100%",
-  minHeight: "100vh"
-}}>
-
       <div style={{
-  fontFamily: "Outfit, sans-serif",
-  minHeight: "100vh",
-  height: "100vh", // ✅ force full viewport
-  background: "#06060a",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "2rem",
-  position: "relative",
-  overflow: "hidden",
-}}>
-        {/* Grid bg */}
-        <div style={{
-          position: "fixed", inset: 0, pointerEvents: "none",
-          backgroundImage: "linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)",
-          backgroundSize: "44px 44px",
-        }} />
-        {/* Ambient orbs */}
-        <div style={{ position: "fixed", width: 600, height: 600, borderRadius: "50%", filter: "blur(110px)", top: -200, left: -150, background: `radial-gradient(circle, ${active.color}20, transparent 65%)`, transition: "background 0.8s ease", pointerEvents: "none" }} />
-        <div style={{ position: "fixed", width: 400, height: 400, borderRadius: "50%", filter: "blur(90px)", bottom: -100, right: -80, background: `radial-gradient(circle, ${active.color}18, transparent 65%)`, transition: "background 0.8s ease", pointerEvents: "none" }} />
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        minHeight: "100vh"
+      }}>
 
-        {/* Card */}
         <div style={{
-          position: "relative", zIndex: 1, width: "100%", maxWidth: 500,
-          animation: mounted ? "pf-mount 0.7s cubic-bezier(.16,1,.3,1) both" : "none",
+          fontFamily: "Outfit, sans-serif",
+          minHeight: "100vh",
+          height: "100vh", // ✅ force full viewport
+          background: "#06060a",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "2rem",
+          position: "relative",
+          overflow: "hidden",
         }}>
+          {/* Grid bg */}
           <div style={{
-            background: "rgba(255,255,255,0.028)", border: "1px solid rgba(255,255,255,0.06)",
-            borderRadius: 28, padding: "2.25rem", backdropFilter: "blur(20px)",
-            boxShadow: "0 0 0 1px rgba(255,255,255,0.025), 0 40px 80px rgba(0,0,0,0.55)",
+            position: "fixed", inset: 0, pointerEvents: "none",
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)",
+            backgroundSize: "44px 44px",
+          }} />
+          {/* Ambient orbs */}
+          <div style={{ position: "fixed", width: 600, height: 600, borderRadius: "50%", filter: "blur(110px)", top: -200, left: -150, background: `radial-gradient(circle, ${active.color}20, transparent 65%)`, transition: "background 0.8s ease", pointerEvents: "none" }} />
+          <div style={{ position: "fixed", width: 400, height: 400, borderRadius: "50%", filter: "blur(90px)", bottom: -100, right: -80, background: `radial-gradient(circle, ${active.color}18, transparent 65%)`, transition: "background 0.8s ease", pointerEvents: "none" }} />
+
+          {/* Card */}
+          <div style={{
+            position: "relative", zIndex: 1, width: "100%", maxWidth: 500,
+            animation: mounted ? "pf-mount 0.7s cubic-bezier(.16,1,.3,1) both" : "none",
           }}>
-            {/* Header */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem" }}>
-              <div>
-                <h1 style={{ fontSize: "1.8rem", fontWeight: 800, color: "#f5f5f7", letterSpacing: "-0.04em", lineHeight: 1.1 }}>Checkout</h1>
-                <p style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.65rem", color: "#374151", letterSpacing: "0.05em", marginTop: 5 }}>// secure · encrypted · fast</p>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 5, background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.22)", borderRadius: 99, padding: "5px 11px", fontFamily: "JetBrains Mono, monospace", fontSize: "0.58rem", color: "#34d399", letterSpacing: "0.06em", whiteSpace: "nowrap" }}>
-                <span style={{ width: 5, height: 5, background: "#10b981", borderRadius: "50%", animation: "pf-blink 2s infinite", display: "inline-block" }} />
-                SSL SECURED
-              </div>
-            </div>
-
-            <form onSubmit={handleSubmit}>
-              {/* Method tabs */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6, background: "rgba(0,0,0,0.3)", padding: 5, borderRadius: 18, border: "1px solid rgba(255,255,255,0.04)", marginBottom: "1.75rem" }}>
-                {METHODS.map((m) => {
-                  const isActive = method === m.value;
-                  return (
-                    <button key={m.value} type="button" className="pf-method-tab"
-                      onClick={() => { setMethod(m.value); setErrors({}); }}
-                      style={{
-                        display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
-                        padding: "0.75rem 0.4rem", border: "none", borderRadius: 13,
-                        background: isActive ? `${m.color}15` : "transparent",
-                        color: isActive ? "#f5f5f7" : "#4b5563", cursor: "pointer",
-                        fontFamily: "Outfit, sans-serif",
-                      }}>
-                      <div style={{ width: 38, height: 38, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10, background: isActive ? `${m.color}22` : "rgba(255,255,255,0.04)", color: isActive ? m.color : "currentColor", transition: "all 0.22s" }}>
-                        {m.value === "CREDIT_CARD" && (
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="19" height="19"><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20M6 15h4" strokeLinecap="round" /></svg>
-                        )}
-                        {m.value === "DEBIT_CARD" && (
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="19" height="19"><rect x="2" y="5" width="20" height="14" rx="2" /><circle cx="16.5" cy="14.5" r="2" fill="currentColor" stroke="none" /><circle cx="19.5" cy="14.5" r="2" fill="currentColor" stroke="none" opacity="0.4" /></svg>
-                        )}
-                        {m.value === "CASH" && (
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="19" height="19"><rect x="2" y="7" width="20" height="13" rx="1.5" /><circle cx="12" cy="13.5" r="2.5" /><path d="M6 10v7M18 10v7" strokeLinecap="round" /></svg>
-                        )}
-                      </div>
-                      <span style={{ fontSize: "0.75rem", fontWeight: 600 }}>{m.short}</span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Card 3D preview */}
-              {isCard && (
-                <CardPreview
-                  cardType={cardType} cardNumber={cardNumber} cardHolder={cardHolder}
-                  expiry={expiry} flipped={cvvFocused} cvv={cvv}
-                  method={method as "CREDIT_CARD" | "DEBIT_CARD"}
-                />
-              )}
-
-              {/* Booking ID + Amount */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginBottom: "0.75rem" }}>
+            <div style={{
+              background: "rgba(255,255,255,0.028)", border: "1px solid rgba(255,255,255,0.06)",
+              borderRadius: 28, padding: "2.25rem", backdropFilter: "blur(20px)",
+              boxShadow: "0 0 0 1px rgba(255,255,255,0.025), 0 40px 80px rgba(0,0,0,0.55)",
+            }}>
+              {/* Header */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem" }}>
                 <div>
-                  <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                    Booking ID {errors.rentalId && <span style={{ color: "#f87171" }}>{errors.rentalId}</span>}
-                  </label>
-                  <div style={{ position: "relative" }}>
-                    <input
-                      className="pf-input"
-                      style={{
-                        ...inputStyle(!!errors.rentalId || !!bookingError, active.color),
-                        "--acc": active.color,
-                        paddingRight: bookingDetails ? "2.4rem" : undefined,
-                        borderColor: bookingDetails ? "rgba(16,185,129,0.5)" : undefined,
-                        boxShadow: bookingDetails ? "0 0 0 3px rgba(16,185,129,0.12)" : undefined,
-                      } as React.CSSProperties}
-                      placeholder="Enter booking ID"
-                      value={rentalId}
-                      onChange={(e) => {
-                        setRentalId(e.target.value);
-                        if (bookingDetails) clearBooking();
-                        if (bookingError) setBookingError("");
-                      }}
-                      onBlur={() => { if (rentalId.trim() && !bookingDetails) lookupBooking(rentalId); }}
-                      onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); lookupBooking(rentalId); } }}
-                      readOnly={bookingLoading}
-                    />
-                    {/* Status icons */}
-                    {bookingLoading && (
-                      <span style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", width: 13, height: 13, border: "2px solid rgba(255,255,255,0.15)", borderTopColor: active.color, borderRadius: "50%", display: "inline-block", animation: "pf-spin 0.65s linear infinite" }} />
-                    )}
-                    {bookingDetails && !bookingLoading && (
-                      <span
-                        title="Clear booking"
-                        onClick={clearBooking}
-                        style={{ position: "absolute", right: 9, top: "50%", transform: "translateY(-50%)", cursor: "pointer", color: "#34d399", fontSize: "1rem", lineHeight: 1 }}
-                      >✓</span>
-                    )}
-                  </div>
-                  {/* Booking error */}
-                  {bookingError && (
-                    <p style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.58rem", color: "#f87171", marginTop: 4, letterSpacing: "0.03em" }}>{bookingError}</p>
-                  )}
-                  {/* Booking summary badge */}
-                  {bookingDetails && (
-                    <div style={{
-                      marginTop: 6, padding: "0.55rem 0.75rem",
-                      background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.18)",
-                      borderRadius: 9, fontFamily: "JetBrains Mono, monospace", fontSize: "0.58rem",
-                      color: "#6ee7b7", lineHeight: 1.7,
-                    }}>
-                      <div style={{ fontWeight: 700, color: "#34d399", marginBottom: 2 }}>{bookingDetails.vehicleName}</div>
-                      <div>{bookingDetails.customerName} · {bookingDetails.pickupDate} → {bookingDetails.returnDate}</div>
-                      <div style={{ color: "rgba(110,231,183,0.6)" }}>{bookingDetails.pickupLocation} → {bookingDetails.returnLocation}</div>
-                    </div>
-                  )}
+                  <h1 style={{ fontSize: "1.8rem", fontWeight: 800, color: "#f5f5f7", letterSpacing: "-0.04em", lineHeight: 1.1 }}>Checkout</h1>
+                  <p style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.65rem", color: "#374151", letterSpacing: "0.05em", marginTop: 5 }}>// secure · encrypted · fast</p>
                 </div>
-                <div>
-                  <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                    Amount {errors.amount && <span style={{ color: "#f87171" }}>{errors.amount}</span>}
-                  </label>
-                  <div style={{ display: "flex", background: "rgba(255,255,255,0.04)", border: `1px solid ${amountFocused ? active.color : errors.amount ? "#ef4444" : bookingDetails ? "rgba(16,185,129,0.5)" : "rgba(255,255,255,0.07)"}`, borderRadius: 11, overflow: "hidden", boxShadow: amountFocused ? `0 0 0 3px ${active.color}25` : bookingDetails ? "0 0 0 3px rgba(16,185,129,0.12)" : "none", transition: "border-color 0.2s, box-shadow 0.2s" }}>
-                    <span style={{ padding: "0 0.8rem", fontFamily: "JetBrains Mono, monospace", fontSize: "0.65rem", color: "#6b7280", background: "rgba(0,0,0,0.2)", borderRight: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", whiteSpace: "nowrap" }}>LKR</span>
-                    <input type="number" style={{ flex: 1, border: "none", background: "transparent", padding: "0.75rem 0.7rem", fontFamily: "JetBrains Mono, monospace", fontSize: "0.9rem", fontWeight: 500, color: bookingDetails ? "#34d399" : "#f5f5f7", outline: "none", width: "100%", cursor: bookingDetails ? "not-allowed" : "text" }}
-                      placeholder="0.00" value={amount} onChange={(e) => { if (!bookingDetails) setAmount(e.target.value); }}
-                      onFocus={() => setAmountFocused(true)} onBlur={() => setAmountFocused(false)} min="0" step="0.01"
-                      readOnly={!!bookingDetails} />
-                  </div>
-                  {bookingDetails && (
-                    <p style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.55rem", color: "rgba(52,211,153,0.6)", marginTop: 4, letterSpacing: "0.03em" }}>Auto-filled from booking</p>
-                  )}
+                <div style={{ display: "flex", alignItems: "center", gap: 5, background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.22)", borderRadius: 99, padding: "5px 11px", fontFamily: "JetBrains Mono, monospace", fontSize: "0.58rem", color: "#34d399", letterSpacing: "0.06em", whiteSpace: "nowrap" }}>
+                  <span style={{ width: 5, height: 5, background: "#10b981", borderRadius: "50%", animation: "pf-blink 2s infinite", display: "inline-block" }} />
+                  SSL SECURED
                 </div>
               </div>
 
-              {/* Card fields */}
-              {isCard && (
-                <div key={method} className="pf-slide">
-                  <div style={{ height: 1, background: "rgba(255,255,255,0.05)", margin: "1.1rem 0" }} />
-
-                  {/* Card number */}
-                  <div style={{ marginBottom: "0.75rem" }}>
-                    <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                      Card Number {errors.cardNumber && <span style={{ color: "#f87171" }}>{errors.cardNumber}</span>}
-                    </label>
-                    <input className="pf-input" style={{ ...inputStyle(!!errors.cardNumber, active.color), "--acc": active.color } as React.CSSProperties}
-                      placeholder="0000 0000 0000 0000" value={cardNumber}
-                      onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                      maxLength={19} inputMode="numeric" />
-                  </div>
-
-                  {/* Cardholder */}
-                  <div style={{ marginBottom: "0.75rem" }}>
-                    <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                      Cardholder Name {errors.cardHolder && <span style={{ color: "#f87171" }}>{errors.cardHolder}</span>}
-                    </label>
-                    <input className="pf-input" style={{ ...inputStyle(!!errors.cardHolder, active.color), "--acc": active.color } as React.CSSProperties}
-                      placeholder="Full name as on card" value={cardHolder}
-                      onChange={(e) => setCardHolder(e.target.value.toUpperCase())} />
-                  </div>
-
-                  {/* Email + Expiry + CVV */}
-                  <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 0.8fr", gap: "0.75rem", marginBottom: "0.75rem" }}>
-                    <div>
-                      <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                        Email <span style={{ color: "#2d3748" }}>(opt)</span>
-                        {errors.email && <span style={{ color: "#f87171" }}>{errors.email}</span>}
-                      </label>
-                      <input type="email" className="pf-input" style={{ ...inputStyle(!!errors.email, active.color), "--acc": active.color } as React.CSSProperties}
-                        placeholder="receipt@email.com" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    </div>
-                    <div>
-                      <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                        Expiry {errors.expiry && <span style={{ color: "#f87171" }}>{errors.expiry}</span>}
-                      </label>
-                      <input className="pf-input" style={{ ...inputStyle(!!errors.expiry, active.color), "--acc": active.color } as React.CSSProperties}
-                        placeholder="MM/YY" value={expiry}
-                        onChange={(e) => setExpiry(formatExpiry(e.target.value))}
-                        maxLength={5} inputMode="numeric" />
-                    </div>
-                    <div>
-                      <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                        CVV {errors.cvv && <span style={{ color: "#f87171" }}>{errors.cvv}</span>}
-                      </label>
-                      <input type="password" className="pf-input" style={{ ...inputStyle(!!errors.cvv, active.color), "--acc": active.color } as React.CSSProperties}
-                        placeholder="•••" value={cvv}
-                        onChange={(e) => setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                        onFocus={() => setCvvFocused(true)} onBlur={() => setCvvFocused(false)}
-                        inputMode="numeric" maxLength={4} />
-                    </div>
-                  </div>
+              <form onSubmit={handleSubmit}>
+                {/* Method tabs */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6, background: "rgba(0,0,0,0.3)", padding: 5, borderRadius: 18, border: "1px solid rgba(255,255,255,0.04)", marginBottom: "1.75rem" }}>
+                  {METHODS.map((m) => {
+                    const isActive = method === m.value;
+                    return (
+                      <button key={m.value} type="button" className="pf-method-tab"
+                        onClick={() => { setMethod(m.value); setErrors({}); }}
+                        style={{
+                          display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
+                          padding: "0.75rem 0.4rem", border: "none", borderRadius: 13,
+                          background: isActive ? `${m.color}15` : "transparent",
+                          color: isActive ? "#f5f5f7" : "#4b5563", cursor: "pointer",
+                          fontFamily: "Outfit, sans-serif",
+                        }}>
+                        <div style={{ width: 38, height: 38, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10, background: isActive ? `${m.color}22` : "rgba(255,255,255,0.04)", color: isActive ? m.color : "currentColor", transition: "all 0.22s" }}>
+                          {m.value === "CREDIT_CARD" && (
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="19" height="19"><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20M6 15h4" strokeLinecap="round" /></svg>
+                          )}
+                          {m.value === "DEBIT_CARD" && (
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="19" height="19"><rect x="2" y="5" width="20" height="14" rx="2" /><circle cx="16.5" cy="14.5" r="2" fill="currentColor" stroke="none" /><circle cx="19.5" cy="14.5" r="2" fill="currentColor" stroke="none" opacity="0.4" /></svg>
+                          )}
+                          {m.value === "CASH" && (
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="19" height="19"><rect x="2" y="7" width="20" height="13" rx="1.5" /><circle cx="12" cy="13.5" r="2.5" /><path d="M6 10v7M18 10v7" strokeLinecap="round" /></svg>
+                          )}
+                        </div>
+                        <span style={{ fontSize: "0.75rem", fontWeight: 600 }}>{m.short}</span>
+                      </button>
+                    );
+                  })}
                 </div>
-              )}
 
-              {/* Cash info */}
-              {method === "CASH" && (
-                <div className="pf-slide">
-                  <div style={{ height: 1, background: "rgba(255,255,255,0.05)", margin: "1.1rem 0" }} />
-                  <div style={{ border: "1px dashed rgba(16,185,129,0.3)", background: "rgba(16,185,129,0.04)", borderRadius: 16, padding: "1.5rem", textAlign: "center", marginBottom: "0.75rem" }}>
-                    <div style={{ fontSize: "2.25rem", marginBottom: "0.75rem" }}>💵</div>
-                    <div style={{ fontSize: "1rem", fontWeight: 700, color: "#f5f5f7", marginBottom: "0.4rem" }}>Pay at Location</div>
-                    <div style={{ fontSize: "0.78rem", color: "#6b7280", fontFamily: "JetBrains Mono, monospace", lineHeight: 1.7 }}>
-                      No card details required.<br />
-                      Show your Rental ID at the counter to complete payment.
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <div style={{ height: 1, background: "rgba(255,255,255,0.05)", margin: "1.25rem 0 1rem" }} />
-
-              {/* Submit */}
-              <button type="submit" disabled={loading} className="pf-submit"
-                style={{
-                  width: "100%", padding: "0.95rem",
-                  background: `linear-gradient(135deg, ${active.color}, ${active.color}bb)`,
-                  border: "none", borderRadius: 14,
-                  fontFamily: "Outfit, sans-serif", fontSize: "0.95rem", fontWeight: 700,
-                  color: "#fff", cursor: "pointer", letterSpacing: "0.01em",
-                  boxShadow: `0 4px 28px ${active.shadowColor}`,
-                  position: "relative", overflow: "hidden",
-                }}>
-                {loading ? (
-                  <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-                    <span style={{ width: 15, height: 15, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "pf-spin 0.65s linear infinite" }} />
-                    Processing…
-                  </span>
-                ) : (
-                  method === "CASH"
-                    ? "Confirm Reservation →"
-                    : `Pay ${amount ? `LKR ${Number(amount).toLocaleString()}` : "Now"} →`
+                {/* Card 3D preview */}
+                {isCard && (
+                  <CardPreview
+                    cardType={cardType} cardNumber={cardNumber} cardHolder={cardHolder}
+                    expiry={expiry} flipped={cvvFocused} cvv={cvv}
+                    method={method as "CREDIT_CARD" | "DEBIT_CARD"}
+                  />
                 )}
-              </button>
-            </form>
 
-            {/* Footer */}
-            <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", fontFamily: "JetBrains Mono, monospace", fontSize: "0.58rem", color: "#1f2937", letterSpacing: "0.05em" }}>
-              {["256-bit SSL", "PCI DSS", "CVV never stored"].map((t, i) => (
-                <span key={t} style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
-                  {i > 0 && <span style={{ color: "#111827" }}>·</span>}
-                  {t}
-                </span>
-              ))}
+                {/* Booking ID + Amount */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginBottom: "0.75rem" }}>
+                  <div>
+                    <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                      Booking ID {errors.rentalId && <span style={{ color: "#f87171" }}>{errors.rentalId}</span>}
+                    </label>
+                    <div style={{ position: "relative" }}>
+                      <input
+                        className="pf-input"
+                        style={{
+                          ...inputStyle(!!errors.rentalId || !!bookingError, active.color),
+                          "--acc": active.color,
+                          paddingRight: bookingDetails ? "2.4rem" : undefined,
+                          borderColor: bookingDetails ? "rgba(16,185,129,0.5)" : undefined,
+                          boxShadow: bookingDetails ? "0 0 0 3px rgba(16,185,129,0.12)" : undefined,
+                        } as React.CSSProperties}
+                        placeholder="Enter booking ID"
+                        value={rentalId}
+                        onChange={(e) => {
+                          setRentalId(e.target.value);
+                          if (bookingDetails) clearBooking();
+                          if (bookingError) setBookingError("");
+                        }}
+                        onBlur={() => { if (rentalId.trim() && !bookingDetails) lookupBooking(rentalId); }}
+                        onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); lookupBooking(rentalId); } }}
+                        readOnly={bookingLoading}
+                      />
+                      {/* Status icons */}
+                      {bookingLoading && (
+                        <span style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", width: 13, height: 13, border: "2px solid rgba(255,255,255,0.15)", borderTopColor: active.color, borderRadius: "50%", display: "inline-block", animation: "pf-spin 0.65s linear infinite" }} />
+                      )}
+                      {bookingDetails && !bookingLoading && (
+                        <span
+                          title="Clear booking"
+                          onClick={clearBooking}
+                          style={{ position: "absolute", right: 9, top: "50%", transform: "translateY(-50%)", cursor: "pointer", color: "#34d399", fontSize: "1rem", lineHeight: 1 }}
+                        >✓</span>
+                      )}
+                    </div>
+                    {/* Booking error */}
+                    {bookingError && (
+                      <p style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.58rem", color: "#f87171", marginTop: 4, letterSpacing: "0.03em" }}>{bookingError}</p>
+                    )}
+                    {/* Booking summary badge */}
+                    {bookingDetails && (
+                      <div style={{
+                        marginTop: 6, padding: "0.55rem 0.75rem",
+                        background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.18)",
+                        borderRadius: 9, fontFamily: "JetBrains Mono, monospace", fontSize: "0.58rem",
+                        color: "#6ee7b7", lineHeight: 1.7,
+                      }}>
+                        <div style={{ fontWeight: 700, color: "#34d399", marginBottom: 2 }}>{bookingDetails.vehicleName}</div>
+                        <div>{bookingDetails.customerName} · {bookingDetails.pickupDate} → {bookingDetails.returnDate}</div>
+                        <div style={{ color: "rgba(110,231,183,0.6)" }}>{bookingDetails.pickupLocation} → {bookingDetails.returnLocation}</div>
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                      Amount {errors.amount && <span style={{ color: "#f87171" }}>{errors.amount}</span>}
+                    </label>
+                    <div style={{ display: "flex", background: "rgba(255,255,255,0.04)", border: `1px solid ${amountFocused ? active.color : errors.amount ? "#ef4444" : bookingDetails ? "rgba(16,185,129,0.5)" : "rgba(255,255,255,0.07)"}`, borderRadius: 11, overflow: "hidden", boxShadow: amountFocused ? `0 0 0 3px ${active.color}25` : bookingDetails ? "0 0 0 3px rgba(16,185,129,0.12)" : "none", transition: "border-color 0.2s, box-shadow 0.2s" }}>
+                      <span style={{ padding: "0 0.8rem", fontFamily: "JetBrains Mono, monospace", fontSize: "0.65rem", color: "#6b7280", background: "rgba(0,0,0,0.2)", borderRight: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", whiteSpace: "nowrap" }}>LKR</span>
+                      <input type="number" style={{ flex: 1, border: "none", background: "transparent", padding: "0.75rem 0.7rem", fontFamily: "JetBrains Mono, monospace", fontSize: "0.9rem", fontWeight: 500, color: bookingDetails ? "#34d399" : "#f5f5f7", outline: "none", width: "100%", cursor: bookingDetails ? "not-allowed" : "text" }}
+                        placeholder="0.00" value={amount} onChange={(e) => { if (!bookingDetails) setAmount(e.target.value); }}
+                        onFocus={() => setAmountFocused(true)} onBlur={() => setAmountFocused(false)} min="0" step="0.01"
+                        readOnly={!!bookingDetails} />
+                    </div>
+                    {bookingDetails && (
+                      <p style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.55rem", color: "rgba(52,211,153,0.6)", marginTop: 4, letterSpacing: "0.03em" }}>Auto-filled from booking</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Card fields */}
+                {isCard && (
+                  <div key={method} className="pf-slide">
+                    <div style={{ height: 1, background: "rgba(255,255,255,0.05)", margin: "1.1rem 0" }} />
+
+                    {/* Card number */}
+                    <div style={{ marginBottom: "0.75rem" }}>
+                      <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                        Card Number {errors.cardNumber && <span style={{ color: "#f87171" }}>{errors.cardNumber}</span>}
+                      </label>
+                      <input className="pf-input" style={{ ...inputStyle(!!errors.cardNumber, active.color), "--acc": active.color } as React.CSSProperties}
+                        placeholder="0000 0000 0000 0000" value={cardNumber}
+                        onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                        maxLength={19} inputMode="numeric" />
+                    </div>
+
+                    {/* Cardholder */}
+                    <div style={{ marginBottom: "0.75rem" }}>
+                      <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                        Cardholder Name {errors.cardHolder && <span style={{ color: "#f87171" }}>{errors.cardHolder}</span>}
+                      </label>
+                      <input className="pf-input" style={{ ...inputStyle(!!errors.cardHolder, active.color), "--acc": active.color } as React.CSSProperties}
+                        placeholder="Full name as on card" value={cardHolder}
+                        onChange={(e) => setCardHolder(e.target.value.toUpperCase())} />
+                    </div>
+
+                    {/* Email + Expiry + CVV */}
+                    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 0.8fr", gap: "0.75rem", marginBottom: "0.75rem" }}>
+                      <div>
+                        <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                          Email <span style={{ color: "#2d3748" }}>(opt)</span>
+                          {errors.email && <span style={{ color: "#f87171" }}>{errors.email}</span>}
+                        </label>
+                        <input type="email" className="pf-input" style={{ ...inputStyle(!!errors.email, active.color), "--acc": active.color } as React.CSSProperties}
+                          placeholder="receipt@email.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                      </div>
+                      <div>
+                        <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                          Expiry {errors.expiry && <span style={{ color: "#f87171" }}>{errors.expiry}</span>}
+                        </label>
+                        <input className="pf-input" style={{ ...inputStyle(!!errors.expiry, active.color), "--acc": active.color } as React.CSSProperties}
+                          placeholder="MM/YY" value={expiry}
+                          onChange={(e) => setExpiry(formatExpiry(e.target.value))}
+                          maxLength={5} inputMode="numeric" />
+                      </div>
+                      <div>
+                        <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                          CVV {errors.cvv && <span style={{ color: "#f87171" }}>{errors.cvv}</span>}
+                        </label>
+                        <input type="password" className="pf-input" style={{ ...inputStyle(!!errors.cvv, active.color), "--acc": active.color } as React.CSSProperties}
+                          placeholder="•••" value={cvv}
+                          onChange={(e) => setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
+                          onFocus={() => setCvvFocused(true)} onBlur={() => setCvvFocused(false)}
+                          inputMode="numeric" maxLength={4} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Cash info */}
+                {method === "CASH" && (
+                  <div className="pf-slide">
+                    <div style={{ height: 1, background: "rgba(255,255,255,0.05)", margin: "1.1rem 0" }} />
+                    <div style={{ border: "1px dashed rgba(16,185,129,0.3)", background: "rgba(16,185,129,0.04)", borderRadius: 16, padding: "1.5rem", textAlign: "center", marginBottom: "0.75rem" }}>
+                      <div style={{ fontSize: "2.25rem", marginBottom: "0.75rem" }}>💵</div>
+                      <div style={{ fontSize: "1rem", fontWeight: 700, color: "#f5f5f7", marginBottom: "0.4rem" }}>Pay at Location</div>
+                      <div style={{ fontSize: "0.78rem", color: "#6b7280", fontFamily: "JetBrains Mono, monospace", lineHeight: 1.7 }}>
+                        No card details required.<br />
+                        Show your Rental ID at the counter to complete payment.
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div style={{ height: 1, background: "rgba(255,255,255,0.05)", margin: "1.25rem 0 1rem" }} />
+
+                {/* Submit */}
+                <button type="submit" disabled={loading} className="pf-submit"
+                  style={{
+                    width: "100%", padding: "0.95rem",
+                    background: `linear-gradient(135deg, ${active.color}, ${active.color}bb)`,
+                    border: "none", borderRadius: 14,
+                    fontFamily: "Outfit, sans-serif", fontSize: "0.95rem", fontWeight: 700,
+                    color: "#fff", cursor: "pointer", letterSpacing: "0.01em",
+                    boxShadow: `0 4px 28px ${active.shadowColor}`,
+                    position: "relative", overflow: "hidden",
+                  }}>
+                  {loading ? (
+                    <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                      <span style={{ width: 15, height: 15, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "pf-spin 0.65s linear infinite" }} />
+                      Processing…
+                    </span>
+                  ) : (
+                    method === "CASH"
+                      ? "Confirm Reservation →"
+                      : `Pay ${amount ? `LKR ${Number(amount).toLocaleString()}` : "Now"} →`
+                  )}
+                </button>
+              </form>
+
+              {/* Footer */}
+              <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", fontFamily: "JetBrains Mono, monospace", fontSize: "0.58rem", color: "#1f2937", letterSpacing: "0.05em" }}>
+                {["256-bit SSL", "PCI DSS", "CVV never stored"].map((t, i) => (
+                  <span key={t} style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
+                    {i > 0 && <span style={{ color: "#111827" }}>·</span>}
+                    {t}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </>
   );

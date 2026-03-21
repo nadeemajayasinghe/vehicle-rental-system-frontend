@@ -1,13 +1,15 @@
 import axios from "axios";
 import { PaymentRequest, PaymentResponse, BookingDetails } from "@/types/payment";
 
+// Use relative proxy paths — Next.js rewrites forward these server-side to the ALB,
+// avoiding CORS because the browser only ever talks to localhost:3000.
 const BOOKING_API = "/api/bookings";
-
 const API = "/api/payments";
-
 
 export const createPayment = async (data: PaymentRequest) => {
   const res = await axios.post<PaymentResponse>(API, data);
+  console.log("create payment");
+
   console.log(res.data);
   return res.data;
 };
@@ -19,6 +21,7 @@ export const getPaymentById = async (id: number) => {
 
 export const getByBookingId = async (bookingId: string) => {
   const res = await axios.get<PaymentResponse>(`${API}/booking/${bookingId}`);
+  console.log("here")
   return res.data;
 };
 
