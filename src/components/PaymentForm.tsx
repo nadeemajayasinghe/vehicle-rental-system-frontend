@@ -36,7 +36,7 @@ function CardPreview({ cardType, cardNumber, cardHolder, expiry, method }: {
     <div className="mb-6 h-48 w-full rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 p-6 text-white shadow-lg relative overflow-hidden">
       {/* Decorative background circle */}
       <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/5" />
-      
+
       <div className="flex justify-between items-start relative z-10">
         <div className="h-10 w-12 rounded-md bg-gradient-to-br from-amber-400 to-amber-200 opacity-80" />
         <div className="text-right">
@@ -181,11 +181,10 @@ export default function PaymentForm() {
               key={m.value}
               type="button"
               onClick={() => { setMethod(m.value); setErrors({}); }}
-              className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl border-2 transition-all ${
-                method === m.value 
-                  ? "border-blue-600 bg-blue-50 text-blue-600" 
+              className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl border-2 transition-all ${method === m.value
+                  ? "border-blue-600 bg-blue-50 text-blue-600"
                   : "border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200"
-              }`}
+                }`}
             >
               <span className="text-xl mb-1">{m.icon}</span>
               <span className="text-[10px] font-bold uppercase tracking-tight">{m.label}</span>
@@ -195,12 +194,12 @@ export default function PaymentForm() {
 
         {/* Card Preview (Only for card methods) */}
         {isCard && (
-          <CardPreview 
-            cardType={cardType} 
-            cardNumber={cardNumber} 
-            cardHolder={cardHolder} 
-            expiry={expiry} 
-            method={method as "CREDIT_CARD" | "DEBIT_CARD"} 
+          <CardPreview
+            cardType={cardType}
+            cardNumber={cardNumber}
+            cardHolder={cardHolder}
+            expiry={expiry}
+            method={method as "CREDIT_CARD" | "DEBIT_CARD"}
           />
         )}
 
@@ -221,11 +220,10 @@ export default function PaymentForm() {
                   if (bookingError) setBookingError("");
                 }}
                 onBlur={() => { if (rentalId.trim() && !bookingDetails) lookupBooking(rentalId); }}
-                className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-medium ${
-                  errors.rentalId || bookingError
+                className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-medium ${errors.rentalId || bookingError
                     ? "border-red-300 bg-red-50 text-red-900 focus:border-red-500"
                     : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:bg-white"
-                }`}
+                  }`}
                 readOnly={bookingLoading}
               />
               {bookingLoading && (
@@ -246,11 +244,10 @@ export default function PaymentForm() {
               value={amount}
               onChange={(e) => !bookingDetails && setAmount(e.target.value)}
               readOnly={!!bookingDetails}
-              className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-bold ${
-                bookingDetails 
-                  ? "border-green-200 bg-green-50 text-green-700" 
+              className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-bold ${bookingDetails
+                  ? "border-green-200 bg-green-50 text-green-700"
                   : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:bg-white"
-              }`}
+                }`}
             />
           </div>
         </div>
@@ -275,9 +272,8 @@ export default function PaymentForm() {
                 placeholder="0000 0000 0000 0000"
                 value={cardNumber}
                 onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-mono ${
-                  errors.cardNumber ? "border-red-300 bg-red-50" : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:bg-white"
-                }`}
+                className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-mono ${errors.cardNumber ? "border-red-300 bg-red-50" : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:bg-white"
+                  }`}
               />
             </div>
 
@@ -288,9 +284,8 @@ export default function PaymentForm() {
                 placeholder="Name on card"
                 value={cardHolder}
                 onChange={(e) => setCardHolder(e.target.value.toUpperCase())}
-                className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-semibold uppercase ${
-                  errors.cardHolder ? "border-red-300 bg-red-50" : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:bg-white"
-                }`}
+                className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-semibold uppercase ${errors.cardHolder ? "border-red-300 bg-red-50" : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:bg-white"
+                  }`}
               />
             </div>
 
@@ -302,9 +297,8 @@ export default function PaymentForm() {
                   placeholder="MM/YY"
                   value={expiry}
                   onChange={(e) => setExpiry(formatExpiry(e.target.value))}
-                  className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-mono ${
-                    errors.expiry ? "border-red-300 bg-red-50" : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:bg-white"
-                  }`}
+                  className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-mono ${errors.expiry ? "border-red-300 bg-red-50" : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:bg-white"
+                    }`}
                 />
               </div>
               <div>
@@ -314,9 +308,8 @@ export default function PaymentForm() {
                   placeholder="•••"
                   value={cvv}
                   onChange={(e) => setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                  className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-mono ${
-                    errors.cvv ? "border-red-300 bg-red-50" : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:bg-white"
-                  }`}
+                  className={`w-full px-4 py-3 rounded-xl border transition-all outline-none text-sm font-mono ${errors.cvv ? "border-red-300 bg-red-50" : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:bg-white"
+                    }`}
                 />
               </div>
             </div>
