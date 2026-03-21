@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { createPayment } from "@/services/paymentService";
-import { PaymentMethod } from "@/types/payment";
+import { createPayment, getBookingById } from "@/services/paymentService";
+import { PaymentMethod, BookingDetails } from "@/types/payment";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface PaymentRequest {
@@ -152,8 +152,36 @@ export default function PaymentForm() {
   const [cvvFocused, setCvvFocused] = useState(false);
   const [amountFocused, setAmountFocused] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [bookingDetails, setBookingDetails] = useState<BookingDetails | null>(null);
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingError, setBookingError] = useState("");
 
   useEffect(() => { setMounted(true); }, []);
+
+  async function lookupBooking(id: string) {
+    const trimmed = id.trim();
+    if (!trimmed) return;
+    setBookingLoading(true);
+    setBookingError("");
+    setBookingDetails(null);
+    try {
+      const booking = await getBookingById(trimmed);
+      setBookingDetails(booking);
+      setAmount(String(booking.totalAmount));
+    } catch {
+      setBookingError("Booking not found. Check the ID and try again.");
+      setAmount("");
+    } finally {
+      setBookingLoading(false);
+    }
+  }
+
+  function clearBooking() {
+    setBookingDetails(null);
+    setBookingError("");
+    setRentalId("");
+    setAmount("");
+  }
 
   const isCard = method === "CREDIT_CARD" || method === "DEBIT_CARD";
   const cardType = getCardType(cardNumber);
@@ -323,25 +351,77 @@ export default function PaymentForm() {
                 />
               )}
 
-              {/* Rental ID + Amount */}
+              {/* Booking ID + Amount */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginBottom: "0.75rem" }}>
                 <div>
                   <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                    Rental ID {errors.rentalId && <span style={{ color: "#f87171" }}>{errors.rentalId}</span>}
+                    Booking ID {errors.rentalId && <span style={{ color: "#f87171" }}>{errors.rentalId}</span>}
                   </label>
-                  <input className="pf-input" style={{ ...inputStyle(!!errors.rentalId, active.color), "--acc": active.color } as React.CSSProperties}
-                    placeholder="R-000000" value={rentalId} onChange={(e) => setRentalId(e.target.value)} />
+                  <div style={{ position: "relative" }}>
+                    <input
+                      className="pf-input"
+                      style={{
+                        ...inputStyle(!!errors.rentalId || !!bookingError, active.color),
+                        "--acc": active.color,
+                        paddingRight: bookingDetails ? "2.4rem" : undefined,
+                        borderColor: bookingDetails ? "rgba(16,185,129,0.5)" : undefined,
+                        boxShadow: bookingDetails ? "0 0 0 3px rgba(16,185,129,0.12)" : undefined,
+                      } as React.CSSProperties}
+                      placeholder="Enter booking ID"
+                      value={rentalId}
+                      onChange={(e) => {
+                        setRentalId(e.target.value);
+                        if (bookingDetails) clearBooking();
+                        if (bookingError) setBookingError("");
+                      }}
+                      onBlur={() => { if (rentalId.trim() && !bookingDetails) lookupBooking(rentalId); }}
+                      onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); lookupBooking(rentalId); } }}
+                      readOnly={bookingLoading}
+                    />
+                    {/* Status icons */}
+                    {bookingLoading && (
+                      <span style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", width: 13, height: 13, border: "2px solid rgba(255,255,255,0.15)", borderTopColor: active.color, borderRadius: "50%", display: "inline-block", animation: "pf-spin 0.65s linear infinite" }} />
+                    )}
+                    {bookingDetails && !bookingLoading && (
+                      <span
+                        title="Clear booking"
+                        onClick={clearBooking}
+                        style={{ position: "absolute", right: 9, top: "50%", transform: "translateY(-50%)", cursor: "pointer", color: "#34d399", fontSize: "1rem", lineHeight: 1 }}
+                      >✓</span>
+                    )}
+                  </div>
+                  {/* Booking error */}
+                  {bookingError && (
+                    <p style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.58rem", color: "#f87171", marginTop: 4, letterSpacing: "0.03em" }}>{bookingError}</p>
+                  )}
+                  {/* Booking summary badge */}
+                  {bookingDetails && (
+                    <div style={{
+                      marginTop: 6, padding: "0.55rem 0.75rem",
+                      background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.18)",
+                      borderRadius: 9, fontFamily: "JetBrains Mono, monospace", fontSize: "0.58rem",
+                      color: "#6ee7b7", lineHeight: 1.7,
+                    }}>
+                      <div style={{ fontWeight: 700, color: "#34d399", marginBottom: 2 }}>{bookingDetails.vehicleName}</div>
+                      <div>{bookingDetails.customerName} · {bookingDetails.pickupDate} → {bookingDetails.returnDate}</div>
+                      <div style={{ color: "rgba(110,231,183,0.6)" }}>{bookingDetails.pickupLocation} → {bookingDetails.returnLocation}</div>
+                    </div>
+                  )}
                 </div>
                 <div>
                   <label style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.6rem", color: "#4b5563", letterSpacing: "0.1em", textTransform: "uppercase", display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
                     Amount {errors.amount && <span style={{ color: "#f87171" }}>{errors.amount}</span>}
                   </label>
-                  <div style={{ display: "flex", background: "rgba(255,255,255,0.04)", border: `1px solid ${amountFocused ? active.color : errors.amount ? "#ef4444" : "rgba(255,255,255,0.07)"}`, borderRadius: 11, overflow: "hidden", boxShadow: amountFocused ? `0 0 0 3px ${active.color}25` : "none", transition: "border-color 0.2s, box-shadow 0.2s" }}>
+                  <div style={{ display: "flex", background: "rgba(255,255,255,0.04)", border: `1px solid ${amountFocused ? active.color : errors.amount ? "#ef4444" : bookingDetails ? "rgba(16,185,129,0.5)" : "rgba(255,255,255,0.07)"}`, borderRadius: 11, overflow: "hidden", boxShadow: amountFocused ? `0 0 0 3px ${active.color}25` : bookingDetails ? "0 0 0 3px rgba(16,185,129,0.12)" : "none", transition: "border-color 0.2s, box-shadow 0.2s" }}>
                     <span style={{ padding: "0 0.8rem", fontFamily: "JetBrains Mono, monospace", fontSize: "0.65rem", color: "#6b7280", background: "rgba(0,0,0,0.2)", borderRight: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", whiteSpace: "nowrap" }}>LKR</span>
-                    <input type="number" style={{ flex: 1, border: "none", background: "transparent", padding: "0.75rem 0.7rem", fontFamily: "JetBrains Mono, monospace", fontSize: "0.9rem", fontWeight: 500, color: "#f5f5f7", outline: "none", width: "100%" }}
-                      placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)}
-                      onFocus={() => setAmountFocused(true)} onBlur={() => setAmountFocused(false)} min="0" step="0.01" />
+                    <input type="number" style={{ flex: 1, border: "none", background: "transparent", padding: "0.75rem 0.7rem", fontFamily: "JetBrains Mono, monospace", fontSize: "0.9rem", fontWeight: 500, color: bookingDetails ? "#34d399" : "#f5f5f7", outline: "none", width: "100%", cursor: bookingDetails ? "not-allowed" : "text" }}
+                      placeholder="0.00" value={amount} onChange={(e) => { if (!bookingDetails) setAmount(e.target.value); }}
+                      onFocus={() => setAmountFocused(true)} onBlur={() => setAmountFocused(false)} min="0" step="0.01"
+                      readOnly={!!bookingDetails} />
                   </div>
+                  {bookingDetails && (
+                    <p style={{ fontFamily: "JetBrains Mono, monospace", fontSize: "0.55rem", color: "rgba(52,211,153,0.6)", marginTop: 4, letterSpacing: "0.03em" }}>Auto-filled from booking</p>
+                  )}
                 </div>
               </div>
 

@@ -1,3 +1,24 @@
+export interface BookingDetails {
+  id: string;
+  vehicleId: string;
+  vehicleName: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  licenseNumber: string;
+  pickupDate: string;
+  returnDate: string;
+  pickupLocation: string;
+  returnLocation: string;
+  numberOfDays: number;
+  pricePerDay: number;
+  totalAmount: number;
+  status: string;
+  specialRequests: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export type PaymentMethod =
   | "CREDIT_CARD"
   | "DEBIT_CARD"
