@@ -1,36 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vehicle Rental System - Frontend
+
+A modern Next.js frontend application for the Vehicle Rental System backend.
+
+## Features
+
+- **User Authentication**: Login and registration with JWT token-based authentication
+- **Profile Management**: View and update user profile information
+- **Rental History**: Track and view complete rental history
+- **Responsive Design**: Mobile-friendly interface with dark mode support
+- **Modern UI**: Beautiful gradient designs with smooth animations
+- **Secure**: Protected routes and secure API communication
+
+## Tech Stack
+
+- **Framework**: Next.js 16 with React 19
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS with custom animations
+- **HTTP Client**: Axios
+- **Authentication**: JWT with jwt-decode
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ installed
+- Customer Service backend running on `http://localhost:8080`
+
+### Installation
+
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Configure environment variables:
+The `.env.local` file is already configured:
+```
+NEXT_PUBLIC_API_URL=http://localhost:8080
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## Learn More
+## Available Pages
 
-To learn more about Next.js, take a look at the following resources:
+- **/** - Landing page with vehicle rental features
+- **/login** - User login page
+- **/register** - New user registration
+- **/home** - Dashboard with rental history (protected)
+- **/profile** - User profile management (protected)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Features Overview
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Landing Page
+- Eye-catching hero section with gradient design
+- Feature highlights
+- Call-to-action buttons
+- Animated background elements
 
-## Deploy on Vercel
+### Authentication
+- Secure login and registration
+- JWT token-based authentication
+- Automatic token refresh
+- Protected route handling
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Dashboard
+- View rental statistics
+- Complete rental history table
+- Account status overview
+- Beautiful gradient cards
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Profile Management
+- Edit personal information
+- View account details
+- Update contact information
+- Account deletion option
+
+## API Integration
+
+The frontend connects to the Customer Service backend:
+
+- `POST /customers/register` - Register new user
+- `POST /customers/login` - User login
+- `GET /customers/{id}` - Get user profile
+- `PUT /customers/{id}` - Update user profile
+- `DELETE /customers/{id}` - Delete user account
+- `GET /customers/{id}/history` - Get rental history
+
+## Project Structure
+
+```
+Frontend/
+├── src/
+│   ├── app/
+│   │   ├── home/          # Dashboard page
+│   │   ├── login/         # Login page
+│   │   ├── profile/       # Profile page
+│   │   ├── register/      # Registration page
+│   │   ├── globals.css    # Global styles with animations
+│   │   ├── layout.tsx     # Root layout with AuthProvider
+│   │   └── page.tsx       # Landing page
+│   ├── components/
+│   │   └── Navbar.tsx     # Navigation component
+│   ├── contexts/
+│   │   └── AuthContext.tsx # Authentication context
+│   └── services/
+│       └── customerService.ts # API service layer
+├── .env.local             # Environment variables
+└── package.json
+```
+
+## Design Features
+
+- **Gradient Backgrounds**: Modern gradient designs throughout
+- **Smooth Animations**: Blob animations on landing page
+- **Dark Mode**: Full dark mode support
+- **Responsive**: Mobile-first responsive design
+- **Accessibility**: WCAG compliant color contrasts
+
+## Building for Production
+
+```bash
+npm run build
+npm start
+```
+
+## Development
+
+```bash
+npm run dev    # Start development server
+npm run lint   # Run ESLint
+```
+
+## Notes
+
+- Backend must be running on port 8080
+- JWT tokens stored in localStorage
+- Protected routes redirect to login
+- Automatic token validation on page load
