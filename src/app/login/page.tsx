@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { loginCustomer } from "@/services/customerService";
 
 export default function LoginPage() {
@@ -10,6 +11,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,8 +30,30 @@ export default function LoginPage() {
       ) {
         localStorage.setItem("authToken", response.token);
       }
+      if (response && typeof response === "object") {
+        const id =
+          ("customerId" in response &&
+          (typeof response.customerId === "string" ||
+            typeof response.customerId === "number")
+            ? response.customerId
+            : null) ??
+          ("id" in response &&
+          (typeof response.id === "string" || typeof response.id === "number")
+            ? response.id
+            : null) ??
+          ("userId" in response &&
+          (typeof response.userId === "string" ||
+            typeof response.userId === "number")
+            ? response.userId
+            : null);
+
+        if (id !== null && id !== undefined) {
+          localStorage.setItem("customerId", String(id));
+        }
+      }
 
       setMessage("Login successful.");
+      router.push("/profile");
     } catch (caught) {
       const errorMessage =
         caught instanceof Error ? caught.message : "Login failed.";
