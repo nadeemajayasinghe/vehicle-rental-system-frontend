@@ -24,7 +24,16 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    
     try {
+      // Check for admin credentials
+      if (formData.email === 'admin@rentcar.com' && formData.password === 'admin@1234') {
+        localStorage.setItem('adminLoggedIn', 'true');
+        router.push('/admin/dashboard');
+        return;
+      }
+
+      // Regular customer login
       const response = await customerService.login(formData);
       await login(response.token);
       router.push('/home');
@@ -185,6 +194,13 @@ export default function LoginPage() {
             <Link href="/vehicles" className="text-sm text-slate-400 hover:text-slate-700">
               Browse vehicles without signing in →
             </Link>
+          </div>
+
+          {/* Admin credentials hint for testing */}
+          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-xs text-blue-700 font-medium mb-1">Admin Access:</p>
+            <p className="text-xs text-blue-600">Email: admin@rentcar.com</p>
+            <p className="text-xs text-blue-600">Password: admin@1234</p>
           </div>
         </div>
       </div>
