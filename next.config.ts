@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
         source: "/api/bookings/:path*",
         destination: `${ALB}/api/bookings/:path*`,
       },
+      {
+        source: "/api/customers/:path*",
+        destination: `${ALB}/customers/:path*`,
+      },
+      {
+        source: "/api/vehicles/:path*",
+        destination: `${ALB}/api/v1/vehicles/:path*`,
+      },
     ];
   },
 };
