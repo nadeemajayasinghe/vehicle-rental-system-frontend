@@ -24,7 +24,20 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    
     try {
+      // Check for admin credentials first
+      const ADMIN_EMAIL = 'admin@carRent.com';
+      const ADMIN_PASSWORD = 'admin@1234';
+      
+      if (formData.email === ADMIN_EMAIL && formData.password === ADMIN_PASSWORD) {
+        // Admin login
+        localStorage.setItem('adminLoggedIn', 'true');
+        router.push('/admin/dashboard');
+        return;
+      }
+      
+      // Regular customer login
       const response = await customerService.login(formData);
       await login(response.token);
       router.push('/home');
