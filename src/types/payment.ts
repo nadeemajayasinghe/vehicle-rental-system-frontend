@@ -34,6 +34,7 @@ export type PaymentStatus =
 export interface PaymentRequest {
   bookingId: string;
   amount: number;
+  customerId: number;
   paymentMethod: PaymentMethod;
 }
 
@@ -41,6 +42,7 @@ export interface PaymentResponse {
   id: number;
   bookingId: string;
   amount: number;
+  customerId: number;
   paymentMethod: PaymentMethod;
   status: PaymentStatus;
   createdAt: string;

@@ -25,6 +25,11 @@ export const getByBookingId = async (bookingId: string) => {
   return res.data;
 };
 
+export const getPaymentsByCustomerId = async (customerId: number) => {
+  const res = await axios.get<PaymentResponse[]>(`${API}/${customerId}`);
+  return res.data;
+};
+
 
 export const getBookingById = async (bookingId: string): Promise<BookingDetails> => {
   const res = await axios.get<BookingDetails>(`${BOOKING_API}/${bookingId}`);
