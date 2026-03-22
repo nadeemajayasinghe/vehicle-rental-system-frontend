@@ -1,8 +1,10 @@
 import axios from "axios";
-import { PaymentRequest, PaymentResponse } from "@/types/payment";
+import { PaymentRequest, PaymentResponse, BookingDetails } from "@/types/payment";
 
-const BASE_URL = "http://api-gateway-alb-1602792189.eu-north-1.elb.amazonaws.com";
-const API = `${BASE_URL}/payments`;
+const BOOKING_API = "/api/bookings";
+
+const API = "/api/payments";
+
 
 export const createPayment = async (data: PaymentRequest) => {
   const res = await axios.post<PaymentResponse>(API, data);
@@ -20,7 +22,8 @@ export const getByBookingId = async (bookingId: string) => {
   return res.data;
 };
 
-export const refundPayment = async (id: number) => {
-  const res = await axios.put<PaymentResponse>(`${API}/${id}/refund`);
+
+export const getBookingById = async (bookingId: string): Promise<BookingDetails> => {
+  const res = await axios.get<BookingDetails>(`${BOOKING_API}/${bookingId}`);
   return res.data;
 };
