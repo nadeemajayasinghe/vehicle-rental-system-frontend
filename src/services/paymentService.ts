@@ -26,7 +26,7 @@ export const getByBookingId = async (bookingId: string) => {
 };
 
 export const getPaymentsByCustomerId = async (customerId: number) => {
-  const res = await axios.get<PaymentResponse[]>(`${API}/${customerId}`);
+  const res = await axios.get<PaymentResponse[]>(`${API}/customer/${customerId}`);
   return res.data;
 };
 
