@@ -1,7 +1,7 @@
 import axios from "axios";
 import { PaymentRequest, PaymentResponse } from "@/types/payment";
 
-const API = "http://localhost:8080/payments";
+const API = "/api/payments";
 
 export const createPayment = async (data: PaymentRequest) => {
   const res = await axios.post<PaymentResponse>(API, data);
