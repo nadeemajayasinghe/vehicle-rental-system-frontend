@@ -12,7 +12,7 @@ export default function AdminVehicles() {
         <div className="text-6xl mb-4">🚗</div>
         <h2 className="text-xl font-semibold text-slate-900 mb-2">Vehicle Management</h2>
         <p className="text-slate-600 mb-4">
-          This section will allow you to manage your vehicle fleet, including adding new vehicles, 
+          This section will allow you to manage your vehicle fleet, including adding new vehicles,
           editing existing ones, tracking availability, and scheduling maintenance.
         </p>
         <div className="text-sm text-slate-500">

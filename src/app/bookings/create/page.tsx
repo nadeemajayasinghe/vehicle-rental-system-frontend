@@ -61,7 +61,6 @@ function BookingForm() {
   const handleCheckAvailability = async () => {
     if (!vehicleId || !pickupDate || !returnDate) return;
     
-    // Validate dates
     const start = new Date(pickupDate);
     const end = new Date(returnDate);
     const today = new Date();
@@ -97,7 +96,7 @@ function BookingForm() {
     const end = new Date(returnDate);
     const diffTime = Math.abs(end.getTime() - start.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays === 0 ? 1 : diffDays; // Minimum 1 day
+    return diffDays === 0 ? 1 : diffDays;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -106,7 +105,7 @@ function BookingForm() {
 
     try {
       setIsSubmitting(true);
-      await bookingService.createBooking({
+      const createdBooking = await bookingService.createBooking({
         vehicleId: vehicle.id,
         vehicleName: `${vehicle.make} ${vehicle.model}`,
         customerName: user.name,
@@ -119,10 +118,11 @@ function BookingForm() {
         returnLocation,
         pricePerDay: vehicle.dailyRate,
         specialRequests,
-        status: 'PENDING'
+        status: 'PENDING',
       });
       
-      router.push('/bookings');
+      // Redirect to payment page with the newly created booking ID
+      router.push(`/payment?bookingId=${createdBooking.id}`);
     } catch (err) {
       console.error('Booking failed:', err);
       alert('Failed to complete booking. Please try again.');
@@ -170,6 +170,26 @@ function BookingForm() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      {/* Step Progress Indicator */}
+      <div className="mb-10">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-md shadow-blue-600/30">1</div>
+            <span className="text-sm font-semibold text-blue-600">Booking Details</span>
+          </div>
+          <div className="h-px flex-1 bg-slate-200" />
+          <div className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-slate-200 bg-white text-xs font-bold text-slate-400">2</div>
+            <span className="text-sm font-medium text-slate-400">Payment</span>
+          </div>
+          <div className="h-px flex-1 bg-slate-200" />
+          <div className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-slate-200 bg-white text-xs font-bold text-slate-400">3</div>
+            <span className="text-sm font-medium text-slate-400">Confirmed</span>
+          </div>
+        </div>
+      </div>
+
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-slate-950">Complete Your Booking</h1>
         <p className="mt-2 text-sm text-slate-500">Provide your details to reserve the {vehicle.make} {vehicle.model}.</p>
@@ -287,7 +307,9 @@ function BookingForm() {
               
               {isAvailable === true && (
                 <div className="flex items-center gap-2 text-sm font-bold text-green-600">
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
                   Vehicle is available!
                 </div>
               )}
@@ -296,9 +318,21 @@ function BookingForm() {
             <button
               type="submit"
               disabled={isAvailable !== true || isSubmitting}
-              className="w-full rounded-xl bg-blue-600 py-4 text-base font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full rounded-xl bg-blue-600 py-4 text-base font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {isSubmitting ? 'Confirming Booking...' : 'Confirm & Book'}
+              {isSubmitting ? (
+                <>
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                  Confirming Booking...
+                </>
+              ) : (
+                <>
+                  Confirm & Proceed to Payment
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </>
+              )}
             </button>
           </form>
         </div>
@@ -333,11 +367,24 @@ function BookingForm() {
             </div>
           </div>
           
-          <div className="mt-8 rounded-xl bg-slate-50 p-4 border border-slate-100">
+          <div className="mt-6 rounded-xl bg-blue-50 p-4 border border-blue-100">
             <div className="flex gap-3">
-              <svg className="h-5 w-5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <svg className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <p className="text-xs text-blue-700 leading-relaxed font-medium">
+                After confirming your booking details, you&apos;ll be directed to the secure payment page to complete your reservation.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 rounded-xl bg-slate-50 p-4 border border-slate-100">
+            <div className="flex gap-3">
+              <svg className="h-5 w-5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
               <p className="text-xs text-slate-500 leading-relaxed">
-                By confirming this booking, you agree to our Terms of Service and Cancellation Policy. Payment will be processed upon vehicle pickup.
+                By confirming, you agree to our Terms of Service and Cancellation Policy.
               </p>
             </div>
           </div>

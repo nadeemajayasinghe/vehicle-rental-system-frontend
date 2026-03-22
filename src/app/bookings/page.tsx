@@ -32,8 +32,7 @@ export default function BookingsPage() {
       setError('');
       if (user?.email) {
         const data = await bookingService.getBookingsByCustomerEmail(user.email);
-        // Sort by creation date descending
-        const sortedData = data.sort((a, b) => 
+        const sortedData = data.sort((a, b) =>
           new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
         );
         setBookings(sortedData);
@@ -51,7 +50,7 @@ export default function BookingsPage() {
       case 'CONFIRMED':
         return <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-700 border border-green-200"><span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>Confirmed</span>;
       case 'PENDING':
-        return <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700 border border-amber-200"><span className="h-1.5 w-1.5 rounded-full bg-amber-500"></span>Pending</span>;
+        return <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700 border border-amber-200"><span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse"></span>Pending Payment</span>;
       case 'CANCELLED':
         return <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700 border border-red-200"><span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>Cancelled</span>;
       case 'COMPLETED':
@@ -67,7 +66,7 @@ export default function BookingsPage() {
       weekday: 'short',
       month: 'short',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     });
   };
 
@@ -86,20 +85,42 @@ export default function BookingsPage() {
     );
   }
 
+  const pendingCount = bookings.filter((b) => b.status === 'PENDING').length;
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <Navbar />
-      
+
       <main className="flex-1 mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-end justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-950">My Bookings</h1>
             <p className="mt-2 text-sm text-slate-500">Manage your past and upcoming vehicle rentals.</p>
           </div>
-          <Link href="/vehicles" className="hidden sm:flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:bg-blue-500">
+          <Link
+            href="/vehicles"
+            className="hidden sm:flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:bg-blue-500"
+          >
             Book Another Vehicle
           </Link>
         </div>
+
+        {/* Pending payment alert banner */}
+        {pendingCount > 0 && (
+          <div className="mb-6 rounded-2xl bg-amber-50 border border-amber-200 p-4 flex items-center gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100">
+              <svg className="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-bold text-amber-800">
+                {pendingCount} booking{pendingCount > 1 ? 's' : ''} awaiting payment
+              </p>
+              <p className="text-xs text-amber-600 mt-0.5">Complete your payment to confirm your reservation.</p>
+            </div>
+          </div>
+        )}
 
         {error && (
           <div className="mb-8 rounded-xl bg-red-50 p-4 border border-red-100 text-sm text-red-600">
@@ -123,21 +144,30 @@ export default function BookingsPage() {
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
             {bookings.map((booking) => (
-              <div key={booking.id} className="group relative flex flex-col lg:flex-row overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
-                <div className="flex-1 p-6">
+              <div
+                key={booking.id}
+                className={`group relative flex flex-col lg:flex-row overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:shadow-md ${
+                  booking.status === 'PENDING'
+                    ? 'border-amber-200 ring-1 ring-amber-100'
+                    : 'border-slate-200'
+                }`}
+              >
+                {/* PENDING stripe accent */}
+                {booking.status === 'PENDING' && (
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-amber-400 to-amber-500 rounded-l-2xl" />
+                )}
+
+                <div className="flex-1 p-6 pl-8">
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <div>
                       <h3 className="text-xl font-bold text-slate-950 group-hover:text-blue-600 transition-colors">
-                        <Link href={`/vehicles/${booking.vehicleId}`} className="focus:outline-none">
-                          <span className="absolute inset-0" aria-hidden="true" />
-                          {booking.vehicleName}
-                        </Link>
+                        {booking.vehicleName}
                       </h3>
                       <p className="mt-1 text-xs text-slate-500">Booking Reference: #{booking.id.substring(0, 8).toUpperCase()}</p>
                     </div>
                     {getStatusBadge(booking.status)}
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-x-4 gap-y-6 mt-6 lg:grid-cols-4">
                     <div>
                       <p className="text-xs font-medium uppercase tracking-wider text-slate-400">Pick-up</p>
@@ -151,13 +181,34 @@ export default function BookingsPage() {
                     </div>
                     <div>
                       <p className="text-xs font-medium uppercase tracking-wider text-slate-400">Duration</p>
-                      <p className="mt-1.5 text-sm font-semibold text-slate-900">{booking.numberOfDays} Day{booking.numberOfDays !== 1 ? 's' : ''}</p>
+                      <p className="mt-1.5 text-sm font-semibold text-slate-900">
+                        {booking.numberOfDays} Day{booking.numberOfDays !== 1 ? 's' : ''}
+                      </p>
                     </div>
                     <div className="lg:text-right border-t lg:border-t-0 pt-4 lg:pt-0 lg:border-l border-slate-100 lg:pl-6 col-span-2 lg:col-span-1">
                       <p className="text-xs font-medium uppercase tracking-wider text-slate-400">Total Amount</p>
                       <p className="mt-1 text-2xl font-bold text-slate-900">${booking.totalAmount}</p>
                     </div>
                   </div>
+
+                  {/* Pay Now CTA for pending bookings */}
+                  {booking.status === 'PENDING' && (
+                    <div className="mt-5 pt-4 border-t border-amber-100 flex items-center justify-between gap-3">
+                      <p className="text-xs text-amber-600 font-medium">
+                        ⚠ Payment required to confirm your reservation
+                      </p>
+                      <Link
+                        href={`/payment?bookingId=${booking.id}`}
+                        className="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-amber-500 px-4 py-2 text-xs font-bold text-white shadow-sm shadow-amber-500/30 transition hover:bg-amber-600 active:scale-95 z-10 relative"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        Pay Now
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
