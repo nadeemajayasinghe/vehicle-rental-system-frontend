@@ -27,7 +27,8 @@ export type CustomerProfile = {
   role?: string;
 };
 
-const DEFAULT_BASE_URL = "http://localhost:8080";
+const DEFAULT_BASE_URL =
+  "https://customer-service.delightfulbush-f9febfc5.southeastasia.azurecontainerapps.io";
 
 const CUSTOMER_SERVICE_BASE_URL =
   process.env.NEXT_PUBLIC_CUSTOMER_SERVICE_URL ?? DEFAULT_BASE_URL;
