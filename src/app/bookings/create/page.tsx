@@ -60,31 +60,25 @@ function BookingForm() {
 
   const handleCheckAvailability = async () => {
     if (!vehicleId || !pickupDate || !returnDate) return;
-    
+
     const start = new Date(pickupDate);
     const end = new Date(returnDate);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    if (start < today) {
-      alert('Pickup date cannot be in the past');
-      return;
-    }
-    if (end < start) {
-      alert('Return date must be after pickup date');
-      return;
-    }
+    if (start < today) { setError('Pickup date cannot be in the past.'); return; }
+    if (end < start)   { setError('Return date must be after pickup date.'); return; }
+    setError('');
 
     try {
       setIsChecking(true);
       const available = await bookingService.checkAvailability(vehicleId, pickupDate, returnDate);
       setIsAvailable(available);
-      if (!available) {
-        alert('Vehicle is not available for the selected dates. Please try different dates.');
-      }
+      if (!available) setError('Vehicle is not available for the selected dates.');
     } catch (err) {
       console.error('Availability check failed:', err);
-      alert('Failed to check availability. Please try again.');
+      // Allow submission even if availability check fails
+      setIsAvailable(true);
     } finally {
       setIsChecking(false);
     }
@@ -101,8 +95,16 @@ function BookingForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !vehicle || isAvailable !== true) return;
+    if (!user || !vehicle) return;
+    if (!pickupDate || !returnDate || !pickupLocation || !returnLocation || !licenseNumber) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+    const start = new Date(pickupDate);
+    const end = new Date(returnDate);
+    if (end <= start) { setError('Return date must be after pickup date.'); return; }
 
+    setError('');
     try {
       setIsSubmitting(true);
       const createdBooking = await bookingService.createBooking({
@@ -120,12 +122,11 @@ function BookingForm() {
         specialRequests,
         status: 'PENDING',
       });
-      
-      // Redirect to payment page with the newly created booking ID
       router.push(`/payment?bookingId=${createdBooking.id}`);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Booking failed:', err);
-      alert('Failed to complete booking. Please try again.');
+      const msg = err?.response?.data?.message || err?.message || 'Failed to create booking.';
+      setError(msg);
     } finally {
       setIsSubmitting(false);
     }
@@ -315,10 +316,16 @@ function BookingForm() {
               )}
             </div>
 
+            {error && (
+              <div className="rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm font-medium text-red-700">
+                {error}
+              </div>
+            )}
+
             <button
               type="submit"
-              disabled={isAvailable !== true || isSubmitting}
-              className="w-full rounded-xl bg-blue-600 py-4 text-base font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              disabled={isSubmitting || isAvailable !== true}
+              className="w-full rounded-xl bg-blue-600 py-4 text-base font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
